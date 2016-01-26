@@ -1,10 +1,10 @@
 	function ActualizarDatos(){
-		var cliente_id = $('#cliente_id').attr('value');
-		var nombres = $('#nombres').attr('value');
-		var ciudad = $('#ciudad').attr('value'); 
-		var alternativas = $("input[@name='alternativas']:checked").attr("value");
-		var telefono = $("#telefono").attr("value");
-		var fecha_nacimiento = $("#fecha_nacimiento").attr("value");
+		var cliente_id = $('#cliente_id').val();
+		var nombres = $('#nombres').val();
+		var ciudad = $('#ciudad').val(); 
+		var alternativas = $("input[name^='alternativas']:checked").val();
+		var telefono = $("#telefono").val();
+		var fecha_nacimiento = $("#fecha_nacimiento").val();
 
 		$.ajax({
 			url: 'actualizar.php',
@@ -48,11 +48,11 @@
 	}
 	
 	function GrabarDatos(){
-		var nombres = $('#nombres').attr('value');
-		var ciudad = $('#ciudad').attr('value'); 
-		var alternativas = $("input[@name='alternativas']:checked").attr("value");
-		var telefono = $("#telefono").attr("value");
-		var fecha_nacimiento = $("#fecha_nacimiento").attr("value");
+		var nombres = $('#nombres').val();
+		var ciudad = $('#ciudad').val(); 
+		var alternativas = $("input[name^='alternativas']:checked").val();
+		var telefono = $("#telefono").val();
+		var fecha_nacimiento = $("#fecha_nacimiento").val();
 
 		$.ajax({
 			url: 'nuevo.php',
@@ -76,8 +76,8 @@
 	
 	// funciones del calendario
 	function update_calendar(){
-		var month = $('#calendar_mes').attr('value');
-		var year = $('#calendar_anio').attr('value');
+		var month = $('#calendar_mes').val();
+		var year = $('#calendar_anio').val();
 	
 		var valores='month='+month+'&year='+year;
 	
@@ -92,7 +92,7 @@
 	}
 	
 	function set_date(date){
-		$('#fecha_nacimiento').attr('value',date);
+		$('#fecha_nacimiento').val(date);
 		show_calendar();
 	}
 	
