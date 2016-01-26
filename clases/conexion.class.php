@@ -7,10 +7,10 @@ class DBManager{
 	var $Usuario;
 	var $Clave;
 	function DBManager(){
-		$this->BaseDatos = "empresa";
-		$this->Servidor = "localhost";
-		$this->Usuario = "root";
-		$this->Clave = "";
+		$this->BaseDatos = "u954911211_emp";
+		$this->Servidor = "mysql.hostinger.es";
+		$this->Usuario = "u954911211_usu";
+		$this->Clave = "Tardalum16";
 	}
 
 	 function conectar() {
