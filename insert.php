@@ -1,6 +1,10 @@
 <?php
-namespace Dao\empresaDatabase;
-include("clases/Dao/empresaDatabase/autoload.php");
+namespace dao\empresaDatabase;
+include("clases/dao/empresaDatabase/autoload.php");
+include("Parm/vendor/autoload.php");
+use \Parm\Config;
+Config::setupConnection("empresa","empresa","root","","localhost");
+
 $user = new ClienteDaoObject();
 $user->setNombres("luis");
 $user->setCiudad("ciudad");

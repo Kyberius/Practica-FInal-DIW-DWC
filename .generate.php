@@ -6,6 +6,6 @@ include("Parm/vendor/autoload.php");
     'password' => '',
     'host' => 'localhost'
 ], new Doctrine\DBAL\Driver\PDOMySql\Driver(), null, null));
-$generator = new Parm\Generator\Generator(Parm\Config::getConnection('empresa'),'./clases/dao/empresaDatabase',"Dao\\empresaDatabase");
+$generator = new Parm\Generator\Generator(Parm\Config::getConnection('empresa'),'./clases/dao/empresaDatabase',"dao\\empresaDatabase");
 $generator->generate();
 ?>

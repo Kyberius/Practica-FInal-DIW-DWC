@@ -9,5 +9,5 @@
  */
 
  
-class_alias('Dao\\empresaDatabase\\ClienteDaoObject', 'ClienteDaoObject');
-class_alias('Dao\\empresaDatabase\\ClienteDaoFactory', 'ClienteDaoFactory');
+class_alias('dao\\empresaDatabase\\ClienteDaoObject', 'ClienteDaoObject');
+class_alias('dao\\empresaDatabase\\ClienteDaoFactory', 'ClienteDaoFactory');
