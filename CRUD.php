@@ -5,14 +5,19 @@ include("Parm/vendor/autoload.php");
 use \Parm\Config;
 Config::setupConnection("empresa","empresa","root","","localhost");
 $type = isset($_POST["type"])?$_POST["type"]:null;
-switch($type) {
-	case "C":echo ClienteCRUD::Create(new Cliente($_POST["nombre"],$_POST["ciudad"],$_POST["sexo"],$_POST["telefono"],$POST["fecha_nacimiento"]));break;
-	case "R":echo ClienteCRUD::Read(new Cliente($_POST["id"]));break;
-	case "U":echo ClienteCRUD::Update(new Cliente($_POST["id"],$_POST["nombre"],$_POST["ciudad"],$_POST["sexo"],$_POST["telefono"],$POST["fecha_nacimiento"]));break;
-	case "D":echo ClienteCRUD::Delete(new Cliente($_POST["id"]));break;
-	case null:echo ClienteCRUD::All();break;
-}
-
+try {
+	switch($type) {
+		case "C":echo ClienteCRUD::Create(new Cliente($_POST["nombre"],$_POST["ciudad"],$_POST["sexo"],$_POST["telefono"],$POST["fecha_nacimiento"]));break;
+		case "R":echo ClienteCRUD::Read(new Cliente($_POST["id"]));break;
+		case "U":echo ClienteCRUD::Update(new Cliente($_POST["id"],$_POST["nombre"],$_POST["ciudad"],$_POST["sexo"],$_POST["telefono"],$POST["fecha_nacimiento"]));break;
+		case "D":echo ClienteCRUD::Delete(new Cliente($_POST["id"]));break;
+		case null:echo ClienteCRUD::All();break;
+	}
+} catch(Exception $e) {
+		$json = ["error"=>["msg" => $e->getMessage(),"code" => $e->getCode()];
+		echo json_encode($json,JSON_FORCE_OBJECT);
+	}
+	
 class Cliente {
 	var $clienteDAO;
 	function __construct() {

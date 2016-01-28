@@ -1,4 +1,5 @@
 # Practica-FInal-DIW-DWC
 Notas
 $.post("CRUD.php",function(data) {
-$datos = data;},"JSON")
+var datos = data;
+if (data.error) {throw data.error.msg}},"JSON")
