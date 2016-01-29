@@ -5,7 +5,7 @@ include("Parm/vendor/autoload.php");
 use \Parm\Config;
 Config::setupConnection("empresa","empresa","root","","localhost");
 $type = isset($_POST["type"])?$_POST["type"]:null;
-try {
+	
 	switch($type) {
 		case "C":echo ClienteCRUD::Create(new Cliente($_POST["nombre"],$_POST["ciudad"],$_POST["sexo"],$_POST["telefono"],$POST["fecha_nacimiento"]));break;
 		case "R":echo ClienteCRUD::Read(new Cliente($_POST["id"]));break;
@@ -13,11 +13,7 @@ try {
 		case "D":echo ClienteCRUD::Delete(new Cliente($_POST["id"]));break;
 		case null:echo ClienteCRUD::All();break;
 	}
-} catch(Exception $e) {
-		$json = ["error"=>["msg" => $e->getMessage(),"code" => $e->getCode()];
-		echo json_encode($json,JSON_FORCE_OBJECT);
-	}
-	
+
 class Cliente {
 	var $clienteDAO;
 	function __construct() {
@@ -50,37 +46,36 @@ class Cliente {
 	}
 	
 	function toJSON() {
-		$json_array = $this->clienteDAO->toJSON();
-		return json_encode($json_array,JSON_FORCE_OBJECT);
+			$json_array = $this->clienteDAO->toJSON();
+			return json_encode($json_array,JSON_FORCE_OBJECT);
 	}
 	
 }
 
 class ClienteCRUD{
 
-public function Create($cliente) {
-	$cliente->clienteDAO->save();
-	return $cliente->toJSON();
-}
+	public function Create($cliente) {
+		$cliente->clienteDAO->save();
+		return $cliente->toJSON();
+	}
 
-public function Read($cliente) {
-	return $cliente->toJSON();
-}
+	public function Read($cliente) {
+		return $cliente->toJSON();
+	}
 
-public function Update($cliente) {
-	$cliente->clienteDAO->save();
-	return $cliente->toJSON();
-}
+	public function Update($cliente) {
+		$cliente->clienteDAO->save();
+		return $cliente->toJSON();
+	}
 
-public function Delete($cliente) {
-	$cliente->delete();
-}
-public function All() {
-	$clienteFacotry = new ClienteDaoFactory();
-	$coll = $clienteFacotry->getCollection();
-	return json_encode($coll->toJson(),JSON_FORCE_OBJECT);
-}
-
+	public function Delete($cliente) {
+		$cliente->delete();
+	}
+	public function All() {
+		$clienteFacotry = new ClienteDaoFactory();
+		$coll = $clienteFacotry->getCollection();
+		return json_encode($coll->toJson(),JSON_FORCE_OBJECT);
+	}
 }
 
 
