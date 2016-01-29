@@ -4,20 +4,26 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Mantenimiento de Clientes</title>
 <script src="js/jquery-2.2.0.min.js" type="text/javascript"></script>
-<script src="js/jquery.functions.js" type="text/javascript"></script>
+<script src="js/tiny-pubsub.js" type="text/javascript"></script>
 <link type="text/css" rel="stylesheet" href="css/estilo.css" />
 </head>
 
 <body>
 <div id="contenedor">
-    <div id="formulario" style="display:none;">
-    </div>
-    <div id="tabla">
-    <script>
-    $.post("consulta.php",function(data) {
-    	$("#tabla").html(data);
-    });
-    </script>
+    <div id="formulario">
+	    <form>
+		    <label>Nombre <input type="text" name="nombre" /></label>
+		  	<label>Ciudad <input type="text" name="ciudad" /></label>
+		   	<fieldset>
+		   	<legend>Sexo</legend>
+		   	<label><input type="radio" name="sexo" value="M"/>Masculino</label>
+		    <label><input type="radio" name="sexo" value="F"/>Femenino</label>
+		    </fieldset>
+		    <label>Telefono <input type="text" name="telefono" /></label>
+		    <label>Fecha de Nacimiento <input type="text" name="fecha_nacimiento" readonly/></label>
+			<input type="submit" name="submit" value="Enviar"/>
+			<input type="reset" value="Borrar"/>
+	    </form>
     </div>
 </div>
 <span style="text-align:center;width:300px;margin:auto;display:block;margin-top:20px;">RibosoMatic.com</span>
