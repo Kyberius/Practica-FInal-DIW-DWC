@@ -54,24 +54,24 @@ class Cliente {
 
 class ClienteCRUD{
 
-	public function Create($cliente) {
+	public static function Create($cliente) {
 		$cliente->clienteDAO->save();
 		return $cliente->toJSON();
 	}
 
-	public function Read($cliente) {
+	public static function Read($cliente) {
 		return $cliente->toJSON();
 	}
 
-	public function Update($cliente) {
+	public static function Update($cliente) {
 		$cliente->clienteDAO->save();
 		return $cliente->toJSON();
 	}
 
-	public function Delete($cliente) {
+	public static function Delete($cliente) {
 		$cliente->delete();
 	}
-	public function All() {
+	public static function All() {
 		$clienteFacotry = new ClienteDaoFactory();
 		$coll = $clienteFacotry->getCollection();
 		return json_encode($coll->toJson(),JSON_FORCE_OBJECT);
