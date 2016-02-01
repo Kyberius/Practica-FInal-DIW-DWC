@@ -69,7 +69,7 @@ class ClienteCRUD{
 	}
 
 	public static function Delete($cliente) {
-		$cliente->delete();
+		return $cliente->delete();
 	}
 	public static function All() {
 		$clienteFacotry = new ClienteDaoFactory();

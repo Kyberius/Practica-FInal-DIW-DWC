@@ -1,29 +1,36 @@
-
 var ClientesCollection = (function() {
 	//Private
-	var clientes;
+	var clientes = [];
 	var ReadAll = function() {
 		$.post("CRUD.php",function(response) {
-			clientes = $.makeArray(response);
+			clientes = $.map(response,function(el) {return el});
 		},"JSON");
 	}
+	var findById = function(id) {
+		return clientes.find(function(element,index,array) {
+			return element.id==id?true:false;
+		});
+	}
 
+	var findClientId = function(cliente) {
+		return clientes.indexOf()
+	}
 	//Public
-	var GetAll = function() {
+	var getAll = function() {
 		return clientes;
 	}
-
-	var GetById = function(id) {
-
+	var getById = function(id) {
+		return findById(id);
 	}
-	//(el método no se podía llamar delete a secas)
-	var deleteById = function(arrayId) {
-		delete clientes[arrayId];
+	var delete = function(id) {
+		var find = findById(id).type = "D";
+		$.post("CRUD.php",{find},function(response) {
+			delete //todo
+		}
 	}
 
-	//(no sé porque dice 'missing ) after argument list' en la linea de clientes.sort)
 	var sortById = function() {
-		clientes.sort(funtion(a,b) {
+		clientes.sort(function(a,b) {
 			return a.getId() - b.getId();
 		})
 	}
@@ -36,37 +43,32 @@ var ClientesCollection = (function() {
 
 
 	//Reveal 
+	var init = function() {
+		ReadAll();
+	}
 
 	//init is not defined
-	var my = {
-		init:init
-
+	return my = {
+		//init:init
 	}
 }());
 
 
 
-var Cliente = (function() {
+var ClienteModel = (function() {
 	//Private
 	var id,nombre,ciudad,sexo,telefono,fechaNacimiento;
 	//TODOS los metodos de gestion del modulo.
-	var fill = function (id,nombre,ciudad,sexo,telefono,fechaNacimiento) {
-		id = id;
-		nombre = nombre;
-		ciudad = ciudad;
-		sexo = sexo;
-		telefono = telefono;
-		fechaNacimiento = fechaNacimiento;
+	var load = function (id) {
+		cliente = ClientesCollection.getById(id);
+
 	}
 
 	var empty = function () {
-		id = null;
-		nombre = null;
+		
 	}
 	//Public
 	
 	//Reveal
-	return {
-
-	}
+	return my;
 });
