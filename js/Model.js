@@ -16,11 +16,12 @@ var ClientesCollection = (function() {
 	var GetById = function(id) {
 
 	}
-
-	var delete = function(arrayId) {
+	//(el método no se podía llamar delete a secas)
+	var deleteById = function(arrayId) {
 		delete clientes[arrayId];
 	}
 
+	//(no sé porque dice 'missing ) after argument list' en la linea de clientes.sort)
 	var sortById = function() {
 		clientes.sort(funtion(a,b) {
 			return a.getId() - b.getId();
@@ -32,9 +33,13 @@ var ClientesCollection = (function() {
 			return a.getNombre()<b.getNombre()?-1:a.getNombre()>b.getNombre()?1:0;
 		})
 	}
-	//Reveal
+
+
+	//Reveal 
+
+	//init is not defined
 	var my = {
-		init:init,
+		init:init
 
 	}
 }());

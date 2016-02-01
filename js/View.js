@@ -1,70 +1,58 @@
 /************Definimos la vista del modelo de la calculadora**************************************************/ 
+
+//Esto ya funciona con handlebars desde consola:
+//	$('#tabla').html(Handlebars.compile($("#table-template").html())({clientesArray:[{"id":1,"nombres":"ANA BELDA ALBERO","ciudad":"FONTANARS DELS ALFORINS","sexo":"M","telefono":"619087609","fechaNacimiento":"2016-02-10 00:00:00"}]}))
+
 //View 
-var calculatorView = (function () { 
-	function _2digits(value) { 
-		return value<10?"0"+value:value;
-	}; 
+var View = (function () { 
+	var HBsource;
+	var HBtemplate;
+	var HBdata;
+
 	/**definimos los metodos a ejecutar para actualizar la vista***//// 
+	//subscribers 
+	/*
 	function calculatePace(time) { 
 		var pace_hours=document.getElementById('paceHours').value=time.hours;
 		var pace_minutes=document.getElementById('paceMinutes').value=_2digits(time.minutes); 
 		var pace_seconds=document.getElementById('paceSeconds').value=_2digits(time.seconds);
 	}
-
-	function calculateMark(time) { 
-		var mark_hours=document.getElementById('markHours').value=time.hours;
-		var mark_minutes=document.getElementById('markMinutes').value=_2digits(time.minutes); 
-		var mark_seconds=document.getElementById('markSeconds').value=_2digits(time.seconds);
-	}
-
-	function calculateTable(arr) {
-		var divTable = document.getElementById('markTable');
-		divTable.innerHTML = "";
-		var table = document.createElement("table");
-		table.setAttribute("border","1");
-		var cabecera = document.createElement("tr");
-		cabecera.setAttribute("style","font-weight: bold; text-align: center;");
-		var tdDistancia = document.createElement("td");
-		tdDistancia.innerHTML = "Distancia";
-		var tdMarca = document.createElement("td");
-		tdMarca.innerHTML = "Marca";
-		cabecera.appendChild(tdDistancia);
-		cabecera.appendChild(tdMarca);
-		table.appendChild(cabecera);
-
-		arr.forEach(function(fila) {
-			var tr = document.createElement("tr");
-			var td1 = document.createElement("td");
-			td1.setAttribute("style","text-align: right;");
-			if (typeof(fila.distance) == "number") {
-				td1.innerHTML = fila.distance;
-			} else {
-				td1.innerHTML = fila.distance.miles + " millas  " + fila.distance.yards + " yardas  " + fila.distance.feet + " pies";
-			}
-			var td2 = document.createElement("td");
-			td2.setAttribute("style","text-align: right;");
-			td2.innerHTML = fila.mark.hours + " h  " + _2digits(fila.mark.minutes) + " m  " + _2digits(fila.mark.seconds) + " s";
-			tr.appendChild(td1);
-			tr.appendChild(td2);
-			table.appendChild(tr);
-		})
-		divTable.appendChild(table);
-	}
-
-
-
+*/
 	return { 
 		init: function () { 
-			events.subscribe('paceKm', calculatePace); 
-			events.subscribe('paceMile', calculatePace); 
-			events.subscribe('markKm', calculateMark); 
-			events.subscribe('markMile', calculateMark); 
-			events.subscribe('markTableMile', calculateTable); 
-			events.subscribe('markTableKm', calculateTable); 
+			//ClientesCollection.readAll();
+
+			//forma larga
+			/*
+			HBsource = $("#table-template").html(); 
+			HBtemplate = Handlebars.compile(HBsource); 
+			HBdata = {clientesArray: ClientesCollection.getAll()}
+
+			$('#tabla').html(HBtemplate(HBdata));
+			*/
+
+
+			//forma corta
+			//con model => HBdata = {clientesArray: ClientesCollection.getAll()};
+			//var datos
+			//$.post("CRUD.php",function(response) {
+			//	datos = response
+			//},"JSON");
+
+			//HBdata = {clientesArray: []};
+
+			//$.each(datos, function (index, value) {
+			//	HBdata.clientesArray.push(value);
+			//});
+
+			//$('#tabla').html(Handlebars.compile($("#table-template").html())(HBdata));
+
+			//events.subscribe('paceKm', calculatePace); 
 		} 
 	} 
 }()); 
-/*** añadimos eventos de click**********/ 
+
+/*** añadimos eventos de click**
 document.getElementById('paceCalc').addEventListener("click",function(){ 
 	var m_hours=document.getElementById('markHours').value*1; 
 	var m_minutes=document.getElementById('markMinutes').value*1; 
@@ -111,22 +99,7 @@ document.getElementById('markTableCalc').addEventListener("click",function(){
 	}
 }); 
 
-/*** sincronizacion de unidades**********/ 
-function syncUnits(source,destinations){
-	for (var i = 0; i < destinations.length; i++) {
-		if (destinations[i] !== source)
-			destinations[i].selectedIndex = source.selectedIndex;
-	};
-}
 
-var selectsUnidad = document.querySelectorAll('select.selectUnit');
+********/ 
 
-for (var i = 0; i < selectsUnidad.length; i++) {
-	selectsUnidad[i].addEventListener("change", function() {
-		syncUnits(this,selectsUnidad);
-	});
-};
-
-
-
-calculatorView.init();
+View.init();

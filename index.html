@@ -5,11 +5,42 @@
 <title>Mantenimiento de Clientes</title>
 <script src="js/jquery-2.2.0.min.js" type="text/javascript"></script>
 <script src="js/tiny-pubsub.js" type="text/javascript"></script>
+<script src="js/handlebars-v4.0.5.js" type="text/javascript"></script>
+<!--<script src="js/Model.js" type="text/javascript"></script>-->
+<script src="js/View.js" type="text/javascript"></script>
 <link type="text/css" rel="stylesheet" href="css/estilo.css" />
 </head>
 
 <body>
 <div id="contenedor">
+	<div id="tabla">
+	<script id="table-template" type="text/x-handlebars-template">	
+		<table>
+			<thead>
+				<th>Nombres</th>
+				<th>Ciudad</th>
+				<th>Sexo</th>
+				<th>Telefono</th>
+				<th>Fecha Nacimiento</th>
+				<th></th>
+				<th></th>
+			</thead>
+			<tbody>
+				{{#clientesArray}}
+				<tr id={{id}}>
+					<td>{{nombres}}</td>
+					<td>{{ciudad}}</td>
+					<td>{{sexo}}</td>
+					<td>{{telefono}}</td>
+					<td>{{fechaNacimiento}}</td>
+					<td><span class="modi"/></td>
+					<td><span class="dele"/></td>
+				</tr>
+				{{/clientesArray}}
+			</tbody>
+		</table>
+	    </script>
+	</div>
     <div id="formulario">
 	    <form>
 		    <label>Nombre <input type="text" name="nombre" /></label>
@@ -26,6 +57,5 @@
 	    </form>
     </div>
 </div>
-<span style="text-align:center;width:300px;margin:auto;display:block;margin-top:20px;">RibosoMatic.com</span>
 </body>
 </html>
