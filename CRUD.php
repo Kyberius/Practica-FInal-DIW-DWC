@@ -7,9 +7,9 @@ Config::setupConnection("empresa","empresa","root","","localhost");
 $type = isset($_POST["type"])?$_POST["type"]:null;
 	
 	switch($type) {
-		case "C":echo ClienteCRUD::Create(new Cliente($_POST["nombre"],$_POST["ciudad"],$_POST["sexo"],$_POST["telefono"],$POST["fecha_nacimiento"]));break;
+		case "C":echo ClienteCRUD::Create(new Cliente($_POST["nombres"],$_POST["ciudad"],$_POST["sexo"],$_POST["telefono"],$POST["fechaNacimiento"]));break;
 		case "R":echo ClienteCRUD::Read(new Cliente($_POST["id"]));break;
-		case "U":echo ClienteCRUD::Update(new Cliente($_POST["id"],$_POST["nombre"],$_POST["ciudad"],$_POST["sexo"],$_POST["telefono"],$POST["fecha_nacimiento"]));break;
+		case "U":echo ClienteCRUD::Update(new Cliente($_POST["id"],$_POST["nombres"],$_POST["ciudad"],$_POST["sexo"],$_POST["telefono"],$POST["fechaNacimiento"]));break;
 		case "D":echo ClienteCRUD::Delete(new Cliente($_POST["id"]));break;
 		case null:echo ClienteCRUD::All();break;
 	}
@@ -69,7 +69,7 @@ class ClienteCRUD{
 	}
 
 	public static function Delete($cliente) {
-		return $cliente->delete();
+		return $cliente->clienteDAO->delete();
 	}
 	public static function All() {
 		$clienteFacotry = new ClienteDaoFactory();
