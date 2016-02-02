@@ -8,6 +8,17 @@
 <script src="js/handlebars-v4.0.5.js" type="text/javascript"></script>
 <script src="js/Model.js" type="text/javascript"></script>
 <link type="text/css" rel="stylesheet" href="css/estilo.css" />
+<script id="row-template" type="text/x-handlebars-template">	
+	<tr id={{id}} class="trCliente">
+		<td class="tdNombres">{{nombres}}</td>
+		<td class="tdCiudad">{{ciudad}}</td>
+		<td class="tdSexo">{{sexo}}</td>
+		<td class="tdTelefono">{{telefono}}</td>
+		<td class="tdFecha">{{fechaNacimiento}}</td>
+		<td class="tdEdit"><span class="modi"><img src="img/database_edit.png" title="Editar" alt="Editar"></span></td>
+		<td class="tdDelete"><span class="dele"><img src="img/delete.png" title="Eliminar" alt="Eliminar"></span></td>
+	</tr>
+</script>
 </head>
 
 <body>
@@ -26,14 +37,14 @@
 			</thead>
 			<tbody>
 				{{#clientesArray}}
-				<tr id={{id}}>
-					<td>{{nombres}}</td>
-					<td>{{ciudad}}</td>
-					<td>{{sexo}}</td>
-					<td>{{telefono}}</td>
-					<td>{{fechaNacimiento}}</td>
-					<td><span class="modi"/></td>
-					<td><span class="dele"/></td>
+				<tr id={{id}} class="trCliente">
+					<td class="tdNombres">{{nombres}}</td>
+					<td class="tdCiudad">{{ciudad}}</td>
+					<td class="tdSexo">{{sexo}}</td>
+					<td class="tdTelefono">{{telefono}}</td>
+					<td class="tdFecha">{{fechaNacimiento}}</td>
+					<td class="tdEdit"><span class="modi"><img src="img/database_edit.png" title="Editar" alt="Editar"></span></td>
+					<td class="tdDelete"><span class="dele"><img src="img/delete.png" title="Eliminar" alt="Eliminar"></span></td>
 				</tr>
 				{{/clientesArray}}
 			</tbody>
