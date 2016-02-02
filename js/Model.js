@@ -44,9 +44,9 @@ var ClientesCollection = (function() {
 	//Reveal 
 	var init = function() {
 		ReadAll();
-		$.suscribe("insertado",add);
-		$.suscribe("actualizado",update);
-		$.suscribe("borrado",remove);
+		$.subscribe("insertado",add);
+		$.subscribe("actualizado",update);
+		$.subscribe("borrado",remove);
 	}
 	//init is not defined
 	return {
@@ -55,7 +55,7 @@ var ClientesCollection = (function() {
 		getById:getById,
 	}
 }());
-ClienteModel.init();
+ClientesCollection.init();
 
 
 //Actualizar todas las llamadas a publish suscriber
