@@ -43,8 +43,13 @@ var View = (function () {
 		},
 		rowInsert:rowInsert,
 		rowUpdate:rowUpdate,
-		rowRemove:rowRemove
+		rowRemove:rowRemove,
 
+
+		//provisional para pruebas
+		HBtableSource:HBtableSource,
+		HBtableTemplate:HBtableTemplate,
+		HBtableData:HBtableData
 	} 
 }()); 
 
@@ -52,4 +57,6 @@ var View = (function () {
 
 ********/ 
 
-View.init();
+$(document).ready(function() {
+    View.init();
+});
