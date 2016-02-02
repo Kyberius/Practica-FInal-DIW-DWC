@@ -49,9 +49,11 @@ var ClientesCollection = (function() {
 
 	//init is not defined
 	return my = {
-		//init:init
+		init:init,
+		getAll:getAll()
 	}
 }());
+ClienteModel.init();
 
 
 
