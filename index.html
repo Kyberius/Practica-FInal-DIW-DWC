@@ -3,11 +3,25 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Mantenimiento de Clientes</title>
+
+<!--JQuery and Tiny-pubsub-->
 <script src="js/jquery-2.2.0.min.js" type="text/javascript"></script>
 <script src="js/tiny-pubsub.js" type="text/javascript"></script>
+
+<!--own javascript-->
 <script src="js/handlebars-v4.0.5.js" type="text/javascript"></script>
 <script src="js/Model.js" type="text/javascript"></script>
+<script src="js/View.js" type="text/javascript"></script>
+
+<!--bootstrap-->
+<link type="text/css" rel="stylesheet" href="css/bootstrap.min.css" />
+<link type="text/css" rel="stylesheet" href="css/bootstrap-theme.min.css" />
+<script src="js/bootstrap.min.js" type="text/javascript"></script>
+
+<!--own style-->
 <link type="text/css" rel="stylesheet" href="css/estilo.css" />
+
+<!-- handlebars template -->
 <script id="row-template" type="text/x-handlebars-template">	
 	<tr id={{id}} class="trCliente">
 		<td class="tdNombres">{{nombres}}</td>
@@ -67,6 +81,5 @@
 	    </form>
     </div>
 </div>
-<script src="js/View.js" type="text/javascript"></script>
 </body>
 </html>

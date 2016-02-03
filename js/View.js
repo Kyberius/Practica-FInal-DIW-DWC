@@ -57,6 +57,10 @@ var View = (function () {
 
 ********/ 
 
-$(document).ready(function() {
+/*$(document).ready(function() {
     View.init();
+});*/
+
+$(window).load(function(){
+  View.init();
 });
