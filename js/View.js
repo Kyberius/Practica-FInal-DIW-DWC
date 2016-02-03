@@ -16,15 +16,17 @@ var View = (function () {
 	//subscribers 
 
 	function rowInsert(_,clienteJSON) { 
+		//esta asignacion no funciona y HBrowSource se queda undefined
 		HBrowSource = !!HBrowSource?$("#row-template").html():HBrowSource;
 		HBrowTemplate = Handlebars.compile(HBrowSource); 
-		$('#' + clienteJSON.id).html(HBrowTemplate(clienteJSON));
+		$('#' + clienteJSON.id).replaceWith(HBrowTemplate(clienteJSON));
 	}	
 
 	function rowUpdate(_,clienteJSON) { 
+		//esta asignacion no funciona y HBrowSource se queda undefined
 		HBrowSource = !!HBrowSource?$("#row-template").html():HBrowSource;
 		HBrowTemplate = Handlebars.compile(HBrowSource); 
-		$('#' + clienteJSON.id).html(HBrowTemplate(clienteJSON));
+		$('#' + clienteJSON.id).replaceWith(HBrowTemplate(clienteJSON));
 	}
 
 	function rowRemove(_,id) { 
@@ -36,7 +38,7 @@ var View = (function () {
 			HBtableSource = $("#table-template").html(); 
 			HBtableTemplate = Handlebars.compile(HBtableSource); 
 			HBtableData = {clientesArray: ClientesCollection.getAll()}
-
+			Handlebars.registerPartial("rowtemplate", $("#row-template").html());
 			$('#tabla').html(HBtableTemplate(HBtableData));
 			
 			//events.subscribe('paceKm', calculatePace); 

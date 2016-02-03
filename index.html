@@ -21,7 +21,28 @@
 <!--own style-->
 <link type="text/css" rel="stylesheet" href="css/estilo.css" />
 
-<!-- handlebars template -->
+
+<!-- handlebars templates -->
+
+<script id="table-template" type="text/x-handlebars-template">	
+	<table>
+		<thead>
+			<th>Nombres</th>
+			<th>Ciudad</th>
+			<th>Sexo</th>
+			<th>Telefono</th>
+			<th>Fecha Nacimiento</th>
+			<th></th>
+			<th></th>
+		</thead>
+		<tbody>
+			{{#clientesArray}}
+			{{> rowtemplate}}
+			{{/clientesArray}}
+		</tbody>
+	</table>
+</script>
+
 <script id="row-template" type="text/x-handlebars-template">	
 	<tr id={{id}} class="trCliente">
 		<td class="tdNombres">{{nombres}}</td>
@@ -33,36 +54,13 @@
 		<td class="tdDelete"><span class="dele"><img src="img/delete.png" title="Eliminar" alt="Eliminar"></span></td>
 	</tr>
 </script>
+
+
 </head>
 
 <body>
 <div id="contenedor">
-	<script id="table-template" type="text/x-handlebars-template">	
-		<table>
-			<thead>
-				<th>Nombres</th>
-				<th>Ciudad</th>
-				<th>Sexo</th>
-				<th>Telefono</th>
-				<th>Fecha Nacimiento</th>
-				<th></th>
-				<th></th>
-			</thead>
-			<tbody>
-				{{#clientesArray}}
-				<tr id={{id}} class="trCliente">
-					<td class="tdNombres">{{nombres}}</td>
-					<td class="tdCiudad">{{ciudad}}</td>
-					<td class="tdSexo">{{sexo}}</td>
-					<td class="tdTelefono">{{telefono}}</td>
-					<td class="tdFecha">{{fechaNacimiento}}</td>
-					<td class="tdEdit"><span class="modi"><img src="img/database_edit.png" title="Editar" alt="Editar"></span></td>
-					<td class="tdDelete"><span class="dele"><img src="img/delete.png" title="Eliminar" alt="Eliminar"></span></td>
-				</tr>
-				{{/clientesArray}}
-			</tbody>
-		</table>
-	    </script>
+
 	<div id="tabla">
 	</div>
     <div id="formulario">
