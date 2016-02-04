@@ -72,15 +72,12 @@ var ClienteModel = (function() {
 	var my = {};
 	//Private
 	var clienteJSON;
-	my.debug;
 
 	function load(id) {
 		clienteJSON = ClientesCollection.getById(id);
-		my.debug = clienteJSON;
 	}
 	function empty() {
 		clienteJSON = {};
-		my.debug = clienteJSON;
 	}
 	function insertDB() {
 		clienteJSON.type = "C";
