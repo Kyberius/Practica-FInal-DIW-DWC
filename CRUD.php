@@ -1,5 +1,6 @@
 <?php
 namespace dao\empresaDatabase;
+
 include("clases/dao/empresaDatabase/autoload.php");
 include("Parm/vendor/autoload.php");
 use \Parm\Config;

@@ -5,9 +5,16 @@ var ClientesCollection = (function() {
 	//Private
 	var clientes = [];
 	var ReadAll = function() {
-		$.post("CRUD.php",function(response) {
+		function success(response) {
 			clientes = $.map(response,function(el) {return el});
-		},"JSON");
+		}
+		$.ajax({
+		  type: "POST",
+		  url: "CRUD.php",
+		  success: success,
+		  dataType: "json",
+		  async:false
+		});
 		sortByName();
 	}
 	var findById = function(id) {
@@ -36,12 +43,12 @@ var ClientesCollection = (function() {
 	//Sorting
 	var sortById = function() {
 		clientes.sort(function(a,b) {
-			return a.getId() - b.getId();
+			return a.id - b.id;
 		})
 	}
 	var sortByName = function() {
 		clientes.sort(function(a,b) {
-			return a.getNombre()<b.getNombre()?-1:a.getNombre()>b.getNombre()?1:0;
+			return a.nombres<b.nombres?-1:a.nombres>b.nombres?1:0;
 		})
 	}
 	//Reveal 
@@ -58,7 +65,6 @@ var ClientesCollection = (function() {
 		getById:getById,
 	}
 }());
-ClientesCollection.init();
 
 
 //Actualizar todas las llamadas a publish suscriber
@@ -66,18 +72,20 @@ var ClienteModel = (function() {
 	var my = {};
 	//Private
 	var clienteJSON;
+	my.debug;
 
 	function load(id) {
 		clienteJSON = ClientesCollection.getById(id);
+		my.debug = clienteJSON;
 	}
 	function empty() {
 		clienteJSON = {};
+		my.debug = clienteJSON;
 	}
 	function insertDB() {
 		clienteJSON.type = "C";
 		$.post("CRUD.php",clienteJSON,function(cliente) {
 			$.publish("insertado",[cliente]);
-			//$.publish() //Publicar añadido cliente enviando el objeto para la vista
 		},"JSON");
 	}
 	function updateDB() {
@@ -126,5 +134,6 @@ var ClienteModel = (function() {
 	my.getFechaNacimiento = function() {return clienteJSON.fechaNacimiento}
 	my.setFechaNacimiento = function(value) {clienteJSON.fechaNacimiento = value}
 	//Reveal
+	
 	return my;
 }());
