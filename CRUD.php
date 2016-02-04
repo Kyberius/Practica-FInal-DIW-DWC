@@ -1,5 +1,6 @@
 <?php
 namespace dao\empresaDatabase;
+
 include("clases/dao/empresaDatabase/autoload.php");
 include("Parm/vendor/autoload.php");
 use \Parm\Config;
@@ -7,9 +8,9 @@ Config::setupConnection("empresa","empresa","root","","localhost");
 $type = isset($_POST["type"])?$_POST["type"]:null;
 	
 	switch($type) {
-		case "C":echo ClienteCRUD::Create(new Cliente($_POST["nombres"],$_POST["ciudad"],$_POST["sexo"],$_POST["telefono"],$POST["fechaNacimiento"]));break;
+		case "C":echo ClienteCRUD::Create(new Cliente($_POST["nombres"],$_POST["ciudad"],$_POST["sexo"],$_POST["telefono"],$_POST["fechaNacimiento"]));break;
 		case "R":echo ClienteCRUD::Read(new Cliente($_POST["id"]));break;
-		case "U":echo ClienteCRUD::Update(new Cliente($_POST["id"],$_POST["nombres"],$_POST["ciudad"],$_POST["sexo"],$_POST["telefono"],$POST["fechaNacimiento"]));break;
+		case "U":echo ClienteCRUD::Update(new Cliente($_POST["id"],$_POST["nombres"],$_POST["ciudad"],$_POST["sexo"],$_POST["telefono"],$_POST["fechaNacimiento"]));break;
 		case "D":echo ClienteCRUD::Delete(new Cliente($_POST["id"]));break;
 		case null:echo ClienteCRUD::All();break;
 	}
