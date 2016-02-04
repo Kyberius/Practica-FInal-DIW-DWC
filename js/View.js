@@ -29,9 +29,19 @@ var View = (function () {
 		return HBrowTemplate(cJson);
 	}
 
+	function showForm() {
+		$("#tabla").hide('slow/400/fast', function() {
+			$("#formulario").show('slow/400/fast');
+		});
+	}
 
+	function showTable() {
+		$("#formulario").hide('slow/400/fast', function() {
+			$("#tabla").show('slow/400/fast');
+		});
+	}
 
-	//subscribers 
+	//subscribers
 	function rowInsert(_,clienteJSON) { 
 		$('#tabla>table>tbody:last-child').append(rowCreator(clienteJSON));
 	}	
@@ -44,16 +54,20 @@ var View = (function () {
 		$('#' + id).remove();
 	}
 
+
+
 	return { 
 
 		rowInsert:rowInsert,
 		rowUpdate:rowUpdate,
 		rowRemove:rowRemove,
+		showForm:showForm,
+		showTable:showTable,
 
 		init: function () { 
-			//fill table
+			//hide form and fill table
 			$('#tabla').html(tableCreator(ClientesCollection.getAll()));
-			
+
 			//subscribe to Model publish events
 			$.subscribe("insertado",rowInsert);
 			$.subscribe("actualizado",rowUpdate);
@@ -71,13 +85,29 @@ var View = (function () {
 	} 
 }()); 
 
-/*** add event listeners***/ 
 
+
+
+/*** add event listeners***/ 
+$("#new").click(function(event) {
+	View.showForm();
+	
+	//.....
+});
+
+$(".tdDelete").click(function(event) {
+	View.showForm();
+	//.....
+});
+
+$(".tdEdit").click(function(event) {
+	View.showForm();
+	//.....
+});
 
 /*** initialization ***/
-$(window).load(function(){
-	View.init();
-});
-/*$(document).ready(function() {
-    View.init();
-});*/
+$.when(ClientesCollection.init()).done(function(){
+	$(window).load(function(){
+		View.init();
+	});
+})	

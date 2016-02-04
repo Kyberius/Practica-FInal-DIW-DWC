@@ -25,6 +25,7 @@
 <!-- handlebars templates -->
 
 <script id="table-template" type="text/x-handlebars-template">	
+	<span id="new"></span>
 	<table>
 		<thead>
 			<th>Nombres</th>
@@ -62,10 +63,11 @@
 <div id="contenedor">
 
 	<div id="tabla">
+
 	</div>
     <div id="formulario">
-	    <form>
-		    <label>Nombre <input type="text" name="nombre" /></label>
+	    <form style="display: none;">
+		    <label>Nombre <input type="text" name="nombres" /></label>
 		  	<label>Ciudad <input type="text" name="ciudad" /></label>
 		   	<fieldset>
 		   	<legend>Sexo</legend>
@@ -73,7 +75,7 @@
 		    <label><input type="radio" name="sexo" value="F"/>Femenino</label>
 		    </fieldset>
 		    <label>Telefono <input type="text" name="telefono" /></label>
-		    <label>Fecha de Nacimiento <input type="text" name="fecha_nacimiento" readonly/></label>
+		    <label>Fecha de Nacimiento <input type="text" name="fechaNacimiento" readonly/></label>
 			<input type="submit" name="submit" value="Enviar"/>
 			<input type="reset" value="Borrar"/>
 	    </form>
