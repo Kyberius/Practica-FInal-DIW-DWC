@@ -1,3 +1,6 @@
+//no funciona pubsub (se actualiza modelo por referencia
+// pero los metodos suscritos no se ejecutan)
+
 var ClientesCollection = (function() {
 	//Private
 	var clientes = [];
@@ -48,7 +51,7 @@ var ClientesCollection = (function() {
 		$.subscribe("actualizado",update);
 		$.subscribe("borrado",remove);
 	}
-	//init is not defined
+	
 	return {
 		init:init,
 		getAll:getAll,

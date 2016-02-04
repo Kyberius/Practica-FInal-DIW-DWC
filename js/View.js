@@ -6,27 +6,38 @@
 
 
 var View = (function () { 
+	//HandleBars variables
 	var HBtableSource;
 	var HBtableTemplate;
 	var HBtableData;
 	var HBrowSource;
 	var HBrowTemplate;
+	
+	function tableCreator(clientsArray) {
+		HBtableSource = (typeof HBtableSource === "undefined")?$("#table-template").html():HBtableSource; 
+		HBtableTemplate = (typeof HBtableTemplate === "undefined")?Handlebars.compile(HBtableSource):HBtableTemplate; 
+		HBtableData = {clientsArray: clientsArray}
+		if (typeof HBrowSource === "undefined") {
+			HBrowSource = $("#row-template").html();
+			Handlebars.registerPartial("rowtemplate", HBrowSource);
+		}
+		return HBtableTemplate(HBtableData);
+	}
 
-	/**definimos los metodos a ejecutar para actualizar la vista***//// 
+	function rowCreator(cJson) {
+		HBrowTemplate = (typeof HBrowTemplate === "undefined")?Handlebars.compile(HBrowSource):HBrowTemplate; 
+		return HBrowTemplate(cJson);
+	}
+
+
+
 	//subscribers 
-
 	function rowInsert(_,clienteJSON) { 
-		//esta asignacion no funciona y HBrowSource se queda undefined
-		HBrowSource = !!HBrowSource?$("#row-template").html():HBrowSource;
-		HBrowTemplate = Handlebars.compile(HBrowSource); 
-		$('#' + clienteJSON.id).replaceWith(HBrowTemplate(clienteJSON));
+		$('#tabla>table>tbody:last-child').append(rowCreator(clienteJSON));
 	}	
 
 	function rowUpdate(_,clienteJSON) { 
-		//esta asignacion no funciona y HBrowSource se queda undefined
-		HBrowSource = !!HBrowSource?$("#row-template").html():HBrowSource;
-		HBrowTemplate = Handlebars.compile(HBrowSource); 
-		$('#' + clienteJSON.id).replaceWith(HBrowTemplate(clienteJSON));
+		$('#' + clienteJSON.id).replaceWith(rowCreator(clienteJSON));
 	}
 
 	function rowRemove(_,id) { 
@@ -34,35 +45,39 @@ var View = (function () {
 	}
 
 	return { 
-		init: function () { 
-			HBtableSource = $("#table-template").html(); 
-			HBtableTemplate = Handlebars.compile(HBtableSource); 
-			HBtableData = {clientesArray: ClientesCollection.getAll()}
-			Handlebars.registerPartial("rowtemplate", $("#row-template").html());
-			$('#tabla').html(HBtableTemplate(HBtableData));
-			
-			//events.subscribe('paceKm', calculatePace); 
-		},
+
 		rowInsert:rowInsert,
 		rowUpdate:rowUpdate,
 		rowRemove:rowRemove,
+
+		init: function () { 
+			//fill table
+			$('#tabla').html(tableCreator(ClientesCollection.getAll()));
+			
+			//subscribe to Model publish events
+			$.subscribe("insertado",rowInsert);
+			$.subscribe("actualizado",rowUpdate);
+			$.subscribe("borrado",rowRemove);
+		},
+		
 
 
 		//provisional para pruebas
 		HBtableSource:HBtableSource,
 		HBtableTemplate:HBtableTemplate,
-		HBtableData:HBtableData
+		HBtableData:HBtableData,
+		HBrowSource:HBrowSource,
+		HBrowTemplate:HBrowTemplate
 	} 
 }()); 
 
-/*** añadimos eventos de click**
+/*** add event listeners***/ 
 
-********/ 
 
+/*** initialization ***/
+$(window).load(function(){
+	View.init();
+});
 /*$(document).ready(function() {
     View.init();
 });*/
-
-$(window).load(function(){
-  View.init();
-});
