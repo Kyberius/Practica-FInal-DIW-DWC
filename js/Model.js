@@ -68,6 +68,7 @@ var ClientesCollection = (function() {
 		init:init,
 		getAll:getAll,
 		getById:getById,
+		getPage:getPage
 	}
 }());
 
