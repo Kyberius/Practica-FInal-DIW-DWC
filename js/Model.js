@@ -29,6 +29,11 @@ var ClientesCollection = (function() {
 	var getById = function(id) {
 		return findById(id);
 	}
+	var getPage = function(size,page) {
+		inicio =size*(page-1);
+		fin = inicio + size;
+		return clientes.slice(incio,fin);
+	}
 	//Subscribers
 	var add = function(_,cliente) {
 		clientes.push(cliente);
