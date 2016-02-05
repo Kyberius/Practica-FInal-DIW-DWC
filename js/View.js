@@ -1,16 +1,8 @@
-
-//Esto ya funcionaba con handlebars desde consola:
-//$('#tabla').html(Handlebars.compile($("#table-template").html())({clientesArray:[{"id":1,"nombres":"ANA BELDA ALBERO","ciudad":"FONTANARS DELS ALFORINS","sexo":"M","telefono":"619087609","fechaNacimiento":"2016-02-10 00:00:00"}]}))
-
-//View 
-
-
 var View = (function () { 
 	//Page objects variables
 	var divTable;
 	var tBody;
 	var divForm;
-	var form;
 
 	//HandleBars variables
 	var HBtableSource;
@@ -37,28 +29,52 @@ var View = (function () {
 	}
 
 	function fillForm(){
-		form = (typeof form === "undefined")?divForm.find(">:first-child"):form;
-		form[0].reset();
-		if (typeof form.inputNombre === "undefined") {
-			form.inputNombre = form.find("input[name=nombre]");
-			form.inputCiudad = form.find("input[name=ciudad]");
-			var radios = form.find("input[type=radio]");
-			form.radioSexoM = radios.eq(0);
-			form.radioSexoF = radios.eq(1);
-			form.inputTelefono = form.find("input[name=telefono]");
-			form.inputFechaNacimiento = form.find("input[name=FechaNacimiento]");
+		if (typeof divForm.inputNombre === "undefined") {
+			divForm.inputNombre = divForm.find("input[name=nombres]");
+			divForm.inputCiudad = divForm.find("input[name=ciudad]");
+			var radios = divForm.find("input[type=radio]");
+			divForm.radioSexoM = radios.eq(0);
+			divForm.radioSexoF = radios.eq(1);
+			divForm.inputTelefono = divForm.find("input[name=telefono]");
+			divForm.inputFechaNacimiento = divForm.find("input[name=fechaNacimiento]");
+			divForm.buttonReset = divForm.find("button[name=borrar]"); 
+			divForm.buttonSubmit = divForm.find("button[name=enviar]"); 
 		}
-
-		form.inputNombre.val(ClienteModel.getNombre());
-		form.inputCiudad.val(ClienteModel.getCiudad());
+		var value = ClienteModel.getNombre();
+		divForm.inputNombre.val(value).prop('defaultValue',value);
+		value = ClienteModel.getCiudad();
+		divForm.inputCiudad.val(value).prop('defaultValue',value);
 		var sexo = ClienteModel.getSexo();
-		//if (sexo == "M")
-		//	form.radioSexoM.Click();
-		//else if (sexo == "M")
-		//	form.radioSexoF.Click();
+		if (sexo == "M") {
+			divForm.radioSexoM.attr('checked', 'checked');
+			divForm.radioSexoF.attr('checked', false);
+		}
+		else if (sexo == "F") {
+			divForm.radioSexoF.attr('checked', 'checked');
+			divForm.radioSexoM.attr('checked', false);
+		}
+		value = ClienteModel.getTelefono();
+		divForm.inputTelefono.val(value).prop('defaultValue',value);
+		value = ClienteModel.getFechaNacimiento();
+		divForm.inputFechaNacimiento.val(value).prop('defaultValue',value);
+	}
 
-		form.inputTelefono.val(ClienteModel.getTelefono());
-		form.inputFechaNacimiento.val(ClienteModel.getFechaNacimiento());
+	function submitForm() {
+		//... validar los campos
+		ClienteModel.save();
+		View.showTable();
+	}
+
+	function resetForm() {
+		ClientesCollection.reload();
+		divForm.inputNombre.val($(this).prop('defaultValue'));
+		divForm.inputCiudad.val($(this).prop('defaultValue'));
+		if (divForm.radioSexoM.attr('checked') == "checked")
+			divForm.radioSexoM.prop("checked",true)
+		else
+			divForm.radioSexoF.prop("checked",true)
+		divForm.inputTelefono.val($(this).prop('defaultValue'));
+		divForm.inputFechaNacimiento.val($(this).prop('defaultValue'));
 	}
 
 	//Show/hide methods
@@ -74,7 +90,7 @@ var View = (function () {
 		});
 	}
 
-	//Click adders
+	//Event listeners adders
 	function addTableEventListeners() {
 		divTable.find(">#new").click(newClick);
 		tBody.find("tr .tdDelete").click(deleteClick);
@@ -84,6 +100,12 @@ var View = (function () {
 	function addRowEventListeners(id) {
 		tBody.find("tr#" + id + " .tdDelete").click(deleteClick);
 		tBody.find("tr#" + id + " .tdEdit").click(editClick);
+	}
+
+	function addFormEventListeners() {
+		//preventDefault and stopPropagation
+		form.buttonSubmit.click(submitForm);
+		form.buttonReset.click(resetForm);
 	}	
 
 	//Click functions
@@ -95,7 +117,7 @@ var View = (function () {
 
 	function deleteClick(event) {
 		if (confirm("Eliminar Cliente?"))
-			ClientesCollection.remove($(this).parent().attr("id"));
+			ClienteModel.remove($(this).parent().attr("id"));
 	};
 
 	function editClick(event) {
@@ -145,6 +167,7 @@ var View = (function () {
 
 			// add event listeners
 			addTableEventListeners();
+
 		},
 		
 
