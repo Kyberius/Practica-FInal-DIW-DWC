@@ -52,10 +52,10 @@ var View = (function () {
 		form.inputNombre.val(ClienteModel.getNombre());
 		form.inputCiudad.val(ClienteModel.getCiudad());
 		var sexo = ClienteModel.getSexo();
-		if (sexo == "M")
-			form.radioSexoM.Click();
-		else if (sexo == "M")
-			form.radioSexoF.Click();
+		//if (sexo == "M")
+		//	form.radioSexoM.Click();
+		//else if (sexo == "M")
+		//	form.radioSexoF.Click();
 
 		form.inputTelefono.val(ClienteModel.getTelefono());
 		form.inputFechaNacimiento.val(ClienteModel.getFechaNacimiento());
@@ -88,21 +88,20 @@ var View = (function () {
 
 	//Click functions
 	function newClick(event) {
+		ClienteModel.new();
+		View.fillForm();
 		View.showForm();
-
-		//.....
 	};
 
 	function deleteClick(event) {
-		alert("ID=> " + $(this).parent().attr("id"));
-		//View.showForm();
-		//.....
+		if (confirm("Eliminar Cliente?"))
+			ClientesCollection.remove($(this).parent().attr("id"));
 	};
 
 	function editClick(event) {
-		alert("ID=> " + $(this).parent().attr("id"));
-		//View.showForm();
-		//.....
+		ClienteModel.edit($(this).parent().attr("id"));
+		View.fillForm();
+		View.showForm();
 	}
 
 	//subscribers
@@ -127,6 +126,7 @@ var View = (function () {
 		rowInsert:rowInsert,
 		rowUpdate:rowUpdate,
 		rowRemove:rowRemove,
+		fillForm:fillForm,
 		showForm:showForm,
 		showTable:showTable,
 
