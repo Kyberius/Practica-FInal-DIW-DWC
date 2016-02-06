@@ -1,7 +1,6 @@
 var View = (function () { 
 	//Page objects variables
 	var divTable;
-	var tBody;
 	var divForm;
 
 	//HandleBars variables
@@ -28,18 +27,32 @@ var View = (function () {
 		return HBrowTemplate(cJson);
 	}
 
+
+	//set elements pointers methods
+	function setParentsPointers() {
+		divTable = $("div#tabla");
+		divForm = $("div#formulario");
+	}
+
+	function setChildrenPointers() {
+		//divTable children
+		divTable.tBody = divTable.find("table>tbody");
+
+		//divForm children
+		divForm.inputNombre = divForm.find("input[name=nombres]");
+		divForm.inputCiudad = divForm.find("input[name=ciudad]");
+		var radios = divForm.find("input[type=radio]");
+		divForm.radioSexoM = radios.eq(0);
+		divForm.radioSexoF = radios.eq(1);
+		divForm.inputTelefono = divForm.find("input[name=telefono]");
+		divForm.inputFechaNacimiento = divForm.find("input[name=fechaNacimiento]");
+		divForm.buttonReset = divForm.find("button[name=borrar]"); 
+		divForm.buttonSubmit = divForm.find("button[name=enviar]"); 
+		
+	}
+
+	//fill form with ClienteModel data method
 	function fillForm(){
-		if (typeof divForm.inputNombre === "undefined") {
-			divForm.inputNombre = divForm.find("input[name=nombres]");
-			divForm.inputCiudad = divForm.find("input[name=ciudad]");
-			var radios = divForm.find("input[type=radio]");
-			divForm.radioSexoM = radios.eq(0);
-			divForm.radioSexoF = radios.eq(1);
-			divForm.inputTelefono = divForm.find("input[name=telefono]");
-			divForm.inputFechaNacimiento = divForm.find("input[name=fechaNacimiento]");
-			divForm.buttonReset = divForm.find("button[name=borrar]"); 
-			divForm.buttonSubmit = divForm.find("button[name=enviar]"); 
-		}
 		var value = ClienteModel.getNombre();
 		divForm.inputNombre.val(value).prop('defaultValue',value);
 		value = ClienteModel.getCiudad();
@@ -47,11 +60,11 @@ var View = (function () {
 		var sexo = ClienteModel.getSexo();
 		if (sexo == "M") {
 			divForm.radioSexoM.attr('checked', 'checked');
-			divForm.radioSexoF.attr('checked', false);
+			divForm.radioSexoF.prop('checked', false);
 		}
 		else if (sexo == "F") {
 			divForm.radioSexoF.attr('checked', 'checked');
-			divForm.radioSexoM.attr('checked', false);
+			divForm.radioSexoM.prop('checked', false);
 		}
 		value = ClienteModel.getTelefono();
 		divForm.inputTelefono.val(value).prop('defaultValue',value);
@@ -60,21 +73,25 @@ var View = (function () {
 	}
 
 	function submitForm() {
-		//... validar los campos
-		ClienteModel.save();
-		View.showTable();
+		if (confirm("Guardar Cambios?")) {
+			//... validar los campos
+			ClienteModel.save();
+			View.showTable();
+		}
 	}
 
 	function resetForm() {
-		ClientesCollection.reload();
-		divForm.inputNombre.val($(this).prop('defaultValue'));
-		divForm.inputCiudad.val($(this).prop('defaultValue'));
-		if (divForm.radioSexoM.attr('checked') == "checked")
-			divForm.radioSexoM.prop("checked",true)
-		else
-			divForm.radioSexoF.prop("checked",true)
-		divForm.inputTelefono.val($(this).prop('defaultValue'));
-		divForm.inputFechaNacimiento.val($(this).prop('defaultValue'));
+		if (confirm("Borrar Cambios?")) {
+			ClienteModel.reload();
+			divForm.inputNombre.val(function() { return $(this).prop('defaultValue')});
+			divForm.inputCiudad.val(function() { return $(this).prop('defaultValue')});
+			if (divForm.radioSexoM.attr('checked') == "checked")
+				divForm.radioSexoM.prop("checked",true);
+			else
+				divForm.radioSexoF.prop("checked",true);
+			divForm.inputTelefono.val(function() { return $(this).prop('defaultValue')});
+			divForm.inputFechaNacimiento.val(function() { return $(this).prop('defaultValue')});
+		}
 	}
 
 	//Show/hide methods
@@ -93,22 +110,21 @@ var View = (function () {
 	//Event listeners adders
 	function addTableEventListeners() {
 		divTable.find(">#new").click(newClick);
-		tBody.find("tr .tdDelete").click(deleteClick);
-		tBody.find("tr .tdEdit").click(editClick);
+		divTable.tBody.find("tr .tdDelete").click(deleteClick);
+		divTable.tBody.find("tr .tdEdit").click(editClick);
 	}
 
 	function addRowEventListeners(id) {
-		tBody.find("tr#" + id + " .tdDelete").click(deleteClick);
-		tBody.find("tr#" + id + " .tdEdit").click(editClick);
+		divForm.tBody.find("tr#" + id + " .tdDelete").click(deleteClick);
+		divForm.tBody.find("tr#" + id + " .tdEdit").click(editClick);
 	}
 
 	function addFormEventListeners() {
-		//preventDefault and stopPropagation
-		form.buttonSubmit.click(submitForm);
-		form.buttonReset.click(resetForm);
+		divForm.buttonSubmit.click(submitForm);
+		divForm.buttonReset.click(resetForm);
 	}	
 
-	//Click functions
+	//table clicks handle functions
 	function newClick(event) {
 		ClienteModel.new();
 		View.fillForm();
@@ -126,39 +142,32 @@ var View = (function () {
 		View.showForm();
 	}
 
-	//subscribers
+	//subscribers for model publishers
 	function rowInsert(_,clienteJSON) { 
-		tBody.append(rowCreator(clienteJSON));
+		divForm.tBody.append(rowCreator(clienteJSON));
 		addRowEventListeners(clienteJSON.id);
 	}	
 
 	function rowUpdate(_,clienteJSON) { 
-		tBody.find('#' + clienteJSON.id).replaceWith(rowCreator(clienteJSON));
+		divForm.tBody.find('#' + clienteJSON.id).replaceWith(rowCreator(clienteJSON));
 		addRowEventListeners(clienteJSON.id);
 	}
 
 	function rowRemove(_,id) { 
-		tBody.find('#' + id).remove();
+		divForm.tBody.find('#' + id).remove();
 	}
 
 
 
 	return { 
 
-		rowInsert:rowInsert,
-		rowUpdate:rowUpdate,
-		rowRemove:rowRemove,
-		fillForm:fillForm,
-		showForm:showForm,
-		showTable:showTable,
-
 		init: function () { 
-			//set divs pointers
-			divTable = $("div#tabla");
-			divForm = $("div#formulario");
-			//fill table and set tBody pointer
+			setParentsPointers();
+
+			//create and append clients table
 			divTable.html(tableCreator(ClientesCollection.getAll()));
-			tBody =	divTable.find("table>tbody");
+			
+			setChildrenPointers();
 
 			//subscribe to Model publish events
 			$.subscribe("insertado",rowInsert);
@@ -167,8 +176,18 @@ var View = (function () {
 
 			// add event listeners
 			addTableEventListeners();
-
+			addFormEventListeners();
 		},
+
+		rowInsert:rowInsert,
+		rowUpdate:rowUpdate,
+		rowRemove:rowRemove,
+		fillForm:fillForm,
+		showForm:showForm,
+		showTable:showTable,
+		divTable:divTable,
+		divForm:divForm,
+
 		
 
 
