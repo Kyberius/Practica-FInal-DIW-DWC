@@ -1,5 +1,6 @@
-//no funciona pubsub (se actualiza modelo por referencia
-// pero los metodos suscritos no se ejecutan)
+//1.-no funciona el remove (se dispara el subscriber pero no lo elimina de la coleccion)
+//2.-sobra el subscriber de update (si no se comenta se actualiza Collection 2 veces)
+//3.-habria que volver al ReadAll async con un pub-sub que dispare View.init 
 
 var ClientesCollection = (function() {
 	//Private
@@ -42,6 +43,7 @@ var ClientesCollection = (function() {
 		index = $.map(clientes,function(e) {return e.id}).indexOf(cliente.id);
 		clientes[index] = cliente;
 	}
+	//NO FUNCIONA
 	var remove = function(_,id) {
 		delete clientes[$.map(clientes,function(e) {return e.id}).indexOf(id)];
 	}
@@ -60,7 +62,7 @@ var ClientesCollection = (function() {
 	var init = function() {
 		ReadAll();
 		$.subscribe("insertado",add);
-		$.subscribe("actualizado",update);
+		//$.subscribe("actualizado",update);  //no hace falta
 		$.subscribe("borrado",remove);
 	}
 	

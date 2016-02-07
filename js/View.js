@@ -1,7 +1,10 @@
 var View = (function () { 
+
+
 	//Page objects variables
 	var divTable;
 	var divForm;
+
 
 	//HandleBars variables
 	var HBtableSource;
@@ -9,8 +12,9 @@ var View = (function () {
 	var HBtableData;
 	var HBrowSource;
 	var HBrowTemplate;
+
 	
-	//HandleBars templates methods
+	//HandleBars templates functions
 	function tableCreator(clientsArray) {
 		HBtableSource = (typeof HBtableSource === "undefined")?$("#table-template").html():HBtableSource; 
 		HBtableTemplate = (typeof HBtableTemplate === "undefined")?Handlebars.compile(HBtableSource):HBtableTemplate; 
@@ -28,11 +32,12 @@ var View = (function () {
 	}
 
 
-	//set elements pointers methods
+	//set elements pointers functions
 	function setParentsPointers() {
 		divTable = $("div#tabla");
 		divForm = $("div#formulario");
 	}
+
 
 	function setChildrenPointers() {
 		//divTable children
@@ -46,18 +51,20 @@ var View = (function () {
 		divForm.radioSexoF = radios.eq(1);
 		divForm.inputTelefono = divForm.find("input[name=telefono]");
 		divForm.inputFechaNacimiento = divForm.find("input[name=fechaNacimiento]");
-		divForm.buttonReset = divForm.find("button[name=borrar]"); 
-		divForm.buttonSubmit = divForm.find("button[name=enviar]"); 
+		divForm.buttonReset = divForm.find("button[name=reset]"); 
+		divForm.buttonSubmit = divForm.find("button[name=submit]"); 
+		divForm.buttonBack = divForm.find("button[name=back]"); 
 		
 	}
 
-	//fill form with ClienteModel data method
+
+	//form functions
 	function fillForm(){
-		var value = ClienteModel.getNombre();
+		var value = ClienteModel.getNombre() || "";
 		divForm.inputNombre.val(value).prop('defaultValue',value);
-		value = ClienteModel.getCiudad();
+		value = ClienteModel.getCiudad() || "";
 		divForm.inputCiudad.val(value).prop('defaultValue',value);
-		var sexo = ClienteModel.getSexo();
+		var sexo = ClienteModel.getSexo() || "";
 		if (sexo == "M") {
 			divForm.radioSexoM.attr('checked', 'checked');
 			divForm.radioSexoF.prop('checked', false);
@@ -65,10 +72,13 @@ var View = (function () {
 		else if (sexo == "F") {
 			divForm.radioSexoF.attr('checked', 'checked');
 			divForm.radioSexoM.prop('checked', false);
+		} else {
+			divForm.radioSexoM.removeAttr('checked').removeProp('checked');
+			divForm.radioSexoF.removeAttr('checked').removeProp('checked');
 		}
-		value = ClienteModel.getTelefono();
+		value = ClienteModel.getTelefono() || "";
 		divForm.inputTelefono.val(value).prop('defaultValue',value);
-		value = ClienteModel.getFechaNacimiento();
+		value = ClienteModel.getFechaNacimiento() || "";
 		divForm.inputFechaNacimiento.val(value).prop('defaultValue',value);
 	}
 
@@ -76,7 +86,7 @@ var View = (function () {
 		if (confirm("Guardar Cambios?")) {
 			//... validar los campos
 			ClienteModel.save();
-			View.showTable();
+			showTable();
 		}
 	}
 
@@ -87,14 +97,15 @@ var View = (function () {
 			divForm.inputCiudad.val(function() { return $(this).prop('defaultValue')});
 			if (divForm.radioSexoM.attr('checked') == "checked")
 				divForm.radioSexoM.prop("checked",true);
-			else
+			else if (divForm.radioSexoF.attr('checked') == "checked")
 				divForm.radioSexoF.prop("checked",true);
 			divForm.inputTelefono.val(function() { return $(this).prop('defaultValue')});
 			divForm.inputFechaNacimiento.val(function() { return $(this).prop('defaultValue')});
 		}
 	}
 
-	//Show/hide methods
+
+	//Show/hide functions
 	function showForm() {
 		divTable.hide('slow/200/fast', function() {
 			divForm.show('slow/200/fast');
@@ -107,7 +118,8 @@ var View = (function () {
 		});
 	}
 
-	//Event listeners adders
+
+	//Add event listeners functions
 	function addTableEventListeners() {
 		divTable.find(">#new").click(newClick);
 		divTable.tBody.find("tr .tdDelete").click(deleteClick);
@@ -115,20 +127,43 @@ var View = (function () {
 	}
 
 	function addRowEventListeners(id) {
-		divForm.tBody.find("tr#" + id + " .tdDelete").click(deleteClick);
-		divForm.tBody.find("tr#" + id + " .tdEdit").click(editClick);
+		divTable.tBody.find("tr#" + id + " .tdDelete").click(deleteClick);
+		divTable.tBody.find("tr#" + id + " .tdEdit").click(editClick);
 	}
 
 	function addFormEventListeners() {
+		divForm.inputNombre.keyup(function(event) {
+			ClienteModel.setNombre($(this).val());
+		});
+		divForm.inputCiudad.keyup(function(event) {
+			ClienteModel.setCiudad($(this).val());
+		});
+		divForm.radioSexoM.change(function() {
+			if ($(this).prop("checked")) 
+				ClienteModel.setSexo("M");
+		});
+		divForm.radioSexoF.change(function() {
+			if ($(this).prop("checked")) 
+				ClienteModel.setSexo("F");
+		});
+		divForm.inputTelefono.keyup(function(event) {
+			ClienteModel.setTelefono($(this).val());
+		});
+		/*divForm.inputFechaNacimiento.keyup(function(event) {
+			ClienteModel.setFechaNacimiento($(this).val());
+		});*/
+
 		divForm.buttonSubmit.click(submitForm);
 		divForm.buttonReset.click(resetForm);
+		divForm.buttonBack.click(showTable)
 	}	
+
 
 	//table clicks handle functions
 	function newClick(event) {
 		ClienteModel.new();
-		View.fillForm();
-		View.showForm();
+		fillForm();
+		showForm();
 	};
 
 	function deleteClick(event) {
@@ -138,27 +173,27 @@ var View = (function () {
 
 	function editClick(event) {
 		ClienteModel.edit($(this).parent().attr("id"));
-		View.fillForm();
-		View.showForm();
+		fillForm();
+		showForm();
 	}
 
 	//subscribers for model publishers
 	function rowInsert(_,clienteJSON) { 
-		divForm.tBody.append(rowCreator(clienteJSON));
+		divTable.tBody.append(rowCreator(clienteJSON));
 		addRowEventListeners(clienteJSON.id);
 	}	
 
 	function rowUpdate(_,clienteJSON) { 
-		divForm.tBody.find('#' + clienteJSON.id).replaceWith(rowCreator(clienteJSON));
+		divTable.tBody.find('#' + clienteJSON.id).replaceWith(rowCreator(clienteJSON));
 		addRowEventListeners(clienteJSON.id);
 	}
 
 	function rowRemove(_,id) { 
-		divForm.tBody.find('#' + id).remove();
+		divTable.tBody.find('#' + id).remove();
 	}
 
 
-
+	//Public
 	return { 
 
 		init: function () { 
@@ -177,26 +212,7 @@ var View = (function () {
 			// add event listeners
 			addTableEventListeners();
 			addFormEventListeners();
-		},
-
-		rowInsert:rowInsert,
-		rowUpdate:rowUpdate,
-		rowRemove:rowRemove,
-		fillForm:fillForm,
-		showForm:showForm,
-		showTable:showTable,
-		divTable:divTable,
-		divForm:divForm,
-
-		
-
-
-		//provisional para pruebas
-		HBtableSource:HBtableSource,
-		HBtableTemplate:HBtableTemplate,
-		HBtableData:HBtableData,
-		HBrowSource:HBrowSource,
-		HBrowTemplate:HBrowTemplate
+		}
 	} 
 }()); 
 
