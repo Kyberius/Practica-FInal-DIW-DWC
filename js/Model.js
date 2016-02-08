@@ -1,6 +1,4 @@
-//1.-no funciona el remove (se dispara el subscriber pero no lo elimina de la coleccion)
-//2.-sobra el subscriber de update (si no se comenta se actualiza Collection 2 veces)
-//3.-habria que volver al ReadAll async con un pub-sub que dispare View.init 
+//3.-habria que volver al ReadAll async con un pub-sub que dispare View.init
 
 var ClientesCollection = (function() {
 	//Private
@@ -39,13 +37,10 @@ var ClientesCollection = (function() {
 	var add = function(_,cliente) {
 		clientes.push(cliente);
 	}
-	var update = function(_,cliente) {
-		index = $.map(clientes,function(e) {return e.id}).indexOf(cliente.id);
-		clientes[index] = cliente;
-	}
-	//NO FUNCIONA
+
 	var remove = function(_,id) {
-		delete clientes[$.map(clientes,function(e) {return e.id}).indexOf(id)];
+		index = $.map(clientes,function(e) {return e.id}).indexOf(id*1)
+		clientes.splice(index,1);
 	}
 	//Sorting
 	var sortById = function() {
@@ -62,7 +57,6 @@ var ClientesCollection = (function() {
 	var init = function() {
 		ReadAll();
 		$.subscribe("insertado",add);
-		//$.subscribe("actualizado",update);  //no hace falta
 		$.subscribe("borrado",remove);
 	}
 	
@@ -124,7 +118,6 @@ var ClienteModel = (function() {
 
 	my.reload = function() {
 		!!clienteJSON.id?load(clienteJSON.id):empty();
-		//recordarle a dani que haga el relaod en el formulario reset
 	}
 	//Getter & Setters
 	my.getId = function() {return clienteJSON.id}
@@ -139,6 +132,5 @@ var ClienteModel = (function() {
 	my.getFechaNacimiento = function() {return clienteJSON.fechaNacimiento}
 	my.setFechaNacimiento = function(value) {clienteJSON.fechaNacimiento = value}
 	//Reveal
-	
 	return my;
 }());

@@ -38,7 +38,6 @@ var View = (function () {
 		divForm = $("div#formulario");
 	}
 
-
 	function setChildrenPointers() {
 		//divTable children
 		divTable.tBody = divTable.find("table>tbody");
@@ -53,8 +52,7 @@ var View = (function () {
 		divForm.inputFechaNacimiento = divForm.find("input[name=fechaNacimiento]");
 		divForm.buttonReset = divForm.find("button[name=reset]"); 
 		divForm.buttonSubmit = divForm.find("button[name=submit]"); 
-		divForm.buttonBack = divForm.find("button[name=back]"); 
-		
+		divForm.buttonBack = divForm.find("button[name=back]");
 	}
 
 
