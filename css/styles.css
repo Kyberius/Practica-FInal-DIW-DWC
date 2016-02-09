@@ -1,16 +1,43 @@
+.jumbotron>div {
+  background-color: #D3D3D3;
+}
+
 .container {
-    /*max-width: 1000px;*/
-    border-width: 1px;
-    border-style: solid;
-    border-color: gray;
-    border-radius: 10px 10px 10px 10px;
-    padding: 2%;
+  /*max-width: 1000px;*/
+  border-width: 1px;
+  border-style: solid;
+  border-color: gray;
+  border-radius: 10px;
+  padding: 2%;
 }
 
 .vertical-center {
   min-height: 100%;  /* Fallback for browsers do NOT support vh unit */
   min-height: 100vh; /* These two lines are counted as one :-)       */
 
-  display: flex;
-  align-items: center;
+display: flex;
+align-items: center;
+}
+
+form button {
+  margin-left: 5%;
+}
+
+#tabla>#new {
+  margin-top: -1%;
+  margin-bottom: 2%;
+}
+
+.table, .form-horizontal {
+  background-color: #EEEEEE;
+  border-radius: 10px;
+}
+
+.table>tbody>tr>td {
+  vertical-align: middle;
+}
+
+.table>tbody>tr>td:last-child, .table>tbody>tr>td:nth-child(6){
+  width:1%;
+  white-space:nowrap;
 }
