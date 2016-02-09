@@ -25,6 +25,9 @@ var ClientesCollection = (function() {
 	var getAll = function() {
 		return clientes;
 	}
+	var getSize = function() {
+		return clientes.size();
+	}
 	var getById = function(id) {
 		return findById(id);
 	}
@@ -64,7 +67,8 @@ var ClientesCollection = (function() {
 		init:init,
 		getAll:getAll,
 		getById:getById,
-		getPage:getPage
+		getPage:getPage,
+		getSize:getSize
 	}
 }());
 
