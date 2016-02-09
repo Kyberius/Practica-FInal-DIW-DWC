@@ -147,10 +147,18 @@ var View = (function () {
 		divForm.inputTelefono.keyup(function(event) {
 			ClienteModel.setTelefono($(this).val());
 		});
-		/*divForm.inputFechaNacimiento.keyup(function(event) {
+		divForm.inputFechaNacimiento.change(function(event) {
 			ClienteModel.setFechaNacimiento($(this).val());
-		});*/
-
+		});
+		divForm.inputFechaNacimiento.datepicker({
+			changeMonth: true,
+      		changeYear: true,
+      		dateFormat:"yy-mm-dd",
+      		yearRange: "1900:c",
+      		firstDay: 1,
+      		dayNamesMin: [ "Do", "Lu", "Ma", "Mi", "Ju", "Vi", "Sa" ],
+      		monthNamesShort: [ "Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dec" ]
+		});
 		divForm.buttonSubmit.click(submitForm);
 		divForm.buttonReset.click(resetForm);
 		divForm.buttonBack.click(showTable)
