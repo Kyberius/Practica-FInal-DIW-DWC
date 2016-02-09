@@ -65,27 +65,12 @@
 <body>
 	<div id="contenedor" class="jumbotron vertical-center">
 
-		<div id="tabla" class="container" style="display: none;">
+		<div id="tabla" class="container">
 
 		</div>
 
 		<div id="formulario" class="container" style="display: none;">
-			<label>Nombre <input type="text" name="nombres" /></label>
-			<label>Ciudad <input type="text" name="ciudad" /></label>
-			<fieldset>
-				<legend>Sexo</legend>
-				<label><input type="radio" name="sexo" value="M"/>Masculino</label>
-				<label><input type="radio" name="sexo" value="F"/>Femenino</label>
-			</fieldset>
-			<label>Telefono <input type="text" name="telefono" /></label>
-			<label>Fecha de Nacimiento <input type="text" name="fechaNacimiento" readonly/></label>
-			<button name="submit">Enviar</button>
-			<button name="reset">Borrar</button>
-			<button name="back">Atras</button>
-		</div>
-
-		<div id="formu" style="border: 1px solid black;" class="container">
-			<form class="form-horizontal">
+			<form class="form-horizontal" action="#">
 				<fieldset>
 					<!-- Nombre input-->
 					<div class="form-group">
@@ -110,7 +95,7 @@
 						<label class="col-md-4 control-label" for="sexo">Sexo</label>
 						<div class="col-md-4"> 
 							<label class="radio-inline" for="sexo-0">
-								<input type="radio" name="sexo" id="sexo-0" value="M" checked="checked">
+								<input type="radio" name="sexo" id="sexo-0" value="M">
 								Masculino
 							</label> 
 							<label class="radio-inline" for="sexo-1">
@@ -149,9 +134,9 @@
 					<!-- Actions Buttons -->
 					<div class="form-group">
 						<div class="col-md-8 col-md-offset-4">
-						<button id="submit" name="submit" class="btn btn-success">Guardar</button>
-						<button id="reset" name="reset" class="btn btn-warning">Borrar</button>
-						<button id="back" name="back" class="btn btn-primary">Volver</button>
+						<button type="button" id="submit" name="submit" class="btn btn-success">Guardar</button>
+						<button type="button" id="reset" name="reset" class="btn btn-warning">Borrar</button>
+						<button type="button" id="back" name="back" class="btn btn-primary">Volver</button>
 						</div>
 					</div>
 				</fieldset>

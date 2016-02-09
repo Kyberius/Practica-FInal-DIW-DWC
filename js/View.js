@@ -80,7 +80,7 @@ var View = (function () {
 		divForm.inputFechaNacimiento.val(value).prop('defaultValue',value);
 	}
 
-	function submitForm() {
+	function submitForm(event) {
 		if (confirm("Guardar Cambios?")) {
 			//... validar los campos
 			ClienteModel.save();
@@ -88,7 +88,7 @@ var View = (function () {
 		}
 	}
 
-	function resetForm() {
+	function resetForm(event) {
 		if (confirm("Borrar Cambios?")) {
 			ClienteModel.reload();
 			divForm.inputNombre.val(function() { return $(this).prop('defaultValue')});
