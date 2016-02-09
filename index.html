@@ -34,20 +34,22 @@
 
 <script id="table-template" type="text/x-handlebars-template">	
 	<button type="button" id="new" name="new" class="btn btn-success btn-sm"><span class="glyphicon glyphicon-plus" aria-hidden="true"/> &nbsp; Añadir</button>
-	<table class="table table-striped">
-		<thead>
-			<th>Nombres</th>
-			<th>Ciudad</th>
-			<th>Sexo</th>
-			<th>Telefono</th>
-			<th>Fecha Nacimiento</th>
-		</thead>
-		<tbody>
-			{{#clientsArray}}
-				{{> rowtemplate}}
-			{{/clientsArray}}
-		</tbody>
-	</table>
+	<div class="panel panel-default">
+		<table class="table table-striped">
+			<thead>
+				<th>Nombres</th>
+				<th>Ciudad</th>
+				<th>Sexo</th>
+				<th>Telefono</th>
+				<th>Fecha Nacimiento</th>
+			</thead>
+			<tbody>
+				{{#clientsArray}}
+					{{> rowtemplate}}
+				{{/clientsArray}}
+			</tbody>
+		</table>
+	</div>
 </script>
 
 <script id="row-template" type="text/x-handlebars-template">	

@@ -23,15 +23,16 @@ form button {
   margin-left: 5%;
 }
 
+#tabla {
+  padding-top: 10px;
+}
+
 #tabla>#new {
-  margin-top: -1%;
   margin-bottom: 2%;
 }
 
 .table, .form-horizontal {
   background-color: #EEEEEE;
-  border-radius: 10px;
-  overflow: hidden;
 }
 
 .table>tbody>tr>td {
