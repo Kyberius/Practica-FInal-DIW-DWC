@@ -1,0 +1,16 @@
+.container {
+    /*max-width: 1000px;*/
+    border-width: 1px;
+    border-style: solid;
+    border-color: gray;
+    /*border-radius: 10px 10px 10px 10px;*/
+    /*overflow: hidden;*/
+}
+
+.vertical-center {
+  min-height: 100%;  /* Fallback for browsers do NOT support vh unit */
+  min-height: 100vh; /* These two lines are counted as one :-)       */
+
+  display: flex;
+  align-items: center;
+}
