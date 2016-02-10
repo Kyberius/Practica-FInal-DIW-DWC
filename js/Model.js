@@ -96,6 +96,7 @@ var ClienteModel = (function() {
 		clienteJSON.type = "U";
 		$.post("CRUD.php",clienteJSON,function(cliente) {
 			$.publish("actualizado",[cliente]);
+			uploadImg(cliente.id);
 		},"JSON")
 	}
 
