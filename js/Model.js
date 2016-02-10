@@ -89,13 +89,13 @@ var ClienteModel = (function() {
 		clienteJSON.type = "C";
 		$.post("CRUD.php",clienteJSON,function(cliente) {
 			$.publish("insertado",[cliente]);
+			uploadImg(cliente.id);
 		},"JSON");
 	}
 	function updateDB() {
 		clienteJSON.type = "U";
 		$.post("CRUD.php",clienteJSON,function(cliente) {
 			$.publish("actualizado",[cliente]);
-			//pubsub
 		},"JSON")
 	}
 
@@ -104,8 +104,8 @@ var ClienteModel = (function() {
 			$.publish("borrado",[id]);
 		})
 	}
-	function uploadImg() {
-		ImgInputFild.upload("images.php",{id:clienteJSON.id});
+	function uploadImg(id) {
+		ImgInputFild.upload("images.php",{id:id});
 	}
 	//Public
 	my.new = function() {
@@ -120,7 +120,7 @@ var ClienteModel = (function() {
 	}
 	my.save = function() {
 		!!clienteJSON.id?updateDB():insertDB();
-		uploadImg();
+		//uploadImg();
 		empty();
 	}
 

@@ -75,8 +75,10 @@ var View = (function () {
 	function fillForm(){
 		var value = ClienteModel.getNombre() || "";
 		divForm.inputNombre.val(value).prop('defaultValue',value);
+		emptyFormValidate(divForm.inputNombre);		
 		value = ClienteModel.getCiudad() || "";
 		divForm.inputCiudad.val(value).prop('defaultValue',value);
+		emptyFormValidate(divForm.inputCiudad);
 		var sexo = ClienteModel.getSexo() || "";
 		if (sexo == "M") {
 			divForm.radioSexoM.attr('checked', 'checked');
@@ -91,15 +93,23 @@ var View = (function () {
 		}
 		value = ClienteModel.getTelefono() || "";
 		divForm.inputTelefono.val(value).prop('defaultValue',value);
+		emptyFormValidate(divForm.inputTelefono);
 		value = ClienteModel.getFechaNacimiento() || "";
 		divForm.inputFechaNacimiento.val(value).prop('defaultValue',value);
+		emptyFormValidate(divForm.inputFechaNacimiento);
 		divForm.inputImage.val("");
+		divForm.buttonSubmit.prop('disabled',false);
+	function emptyFormValidate(elem) {
+		elem.parent().parent().removeClass('has-error has-success')
 	}
+
+	}
+
+
 
 	function submitForm(event) {
 		if (confirm("Guardar Cambios?")) {
 			//... validar los campos
-			
 			ClienteModel.save();
 		}
 	}
@@ -147,9 +157,11 @@ var View = (function () {
 
 	function addFormEventListeners() {
 		divForm.inputNombre.keyup(function(event) {
+			validate($(this),/[a-zñ]\s*/gi);
 			ClienteModel.setNombre($(this).val());
 		});
 		divForm.inputCiudad.keyup(function(event) {
+			validate($(this),/[a-zñ]\s*/gi);
 			ClienteModel.setCiudad($(this).val());
 		});
 		divForm.radioSexoM.change(function() {
@@ -161,9 +173,11 @@ var View = (function () {
 				ClienteModel.setSexo("F");
 		});
 		divForm.inputTelefono.keyup(function(event) {
+			validate($(this),/[+]?\d\s?/g);
 			ClienteModel.setTelefono($(this).val());
 		});
 		divForm.inputFechaNacimiento.change(function(event) {
+			validate($(this),/\d{4}\-\d{2}-\d{2}/);
 			ClienteModel.setFechaNacimiento($(this).val());
 		});
 		divForm.inputFechaNacimiento.datepicker({
@@ -178,7 +192,23 @@ var View = (function () {
 		divForm.buttonSubmit.click(submitForm);
 		divForm.buttonReset.click(resetForm);
 		divForm.buttonBack.click(showTable)
-	}	
+	}
+
+	function validate(element,pattern) {
+		pattern.test(element.val())?successCotent():errorContent();
+		function errorContent() {
+			element.parent().parent().removeClass('has-success');
+			element.parent().parent().addClass('has-error');
+			divForm.buttonSubmit.prop('disabled',true);
+		}
+		function successCotent() {
+			element.parent().parent().removeClass('has-error');
+			element.parent().parent().addClass('has-success');
+			divForm.buttonSubmit.prop('disabled',false);
+		}
+	}
+
+	
 
 
 	//table clicks handle functions
