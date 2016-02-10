@@ -78,7 +78,7 @@ var ClienteModel = (function() {
 	var my = {};
 	//Private
 	var clienteJSON;
-
+	var ImgInputFild;
 	function load(id) {
 		clienteJSON = ClientesCollection.getById(id);
 	}
@@ -104,6 +104,9 @@ var ClienteModel = (function() {
 			$.publish("borrado",[id]);
 		})
 	}
+	function uploadImg() {
+		ImgInputFild.upload("images.php",{id:clienteJSON.id},function() {})
+	}
 	//Public
 	my.new = function() {
 		empty();
@@ -117,11 +120,16 @@ var ClienteModel = (function() {
 	}
 	my.save = function() {
 		!!clienteJSON.id?updateDB():insertDB();
+		uploadImg();
 		empty();
 	}
 
 	my.reload = function() {
 		!!clienteJSON.id?load(clienteJSON.id):empty();
+	}
+
+	my.setImageReference = function(Reference) {
+		ImgInputFild = Reference;
 	}
 	//Getter & Setters
 	my.getId = function() {return clienteJSON.id}

@@ -50,6 +50,7 @@ var View = (function () {
 		divForm.radioSexoF = radios.eq(1);
 		divForm.inputTelefono = divForm.find("input[name=telefono]");
 		divForm.inputFechaNacimiento = divForm.find("input[name=fechaNacimiento]");
+		ClienteModel.setImageReference(divForm.find("input:file"));
 		divForm.buttonReset = divForm.find("button[name=reset]"); 
 		divForm.buttonSubmit = divForm.find("button[name=submit]"); 
 		divForm.buttonBack = divForm.find("button[name=back]");
@@ -83,6 +84,7 @@ var View = (function () {
 	function submitForm(event) {
 		if (confirm("Guardar Cambios?")) {
 			//... validar los campos
+			
 			ClienteModel.save();
 			showTable();
 		}
