@@ -21,5 +21,4 @@
   $.publish = function() {
     o.trigger.apply(o, arguments);
   };
-  $.ob = o;
 }(jQuery));
