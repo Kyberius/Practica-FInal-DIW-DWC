@@ -99,13 +99,10 @@ var View = (function () {
 		emptyFormValidate(divForm.inputFechaNacimiento);
 		divForm.inputImage.val("");
 		divForm.buttonSubmit.prop('disabled',false);
-	function emptyFormValidate(elem) {
-		elem.parent().parent().removeClass('has-error has-success')
+		function emptyFormValidate(elem) {
+			elem.parent().parent().removeClass('has-error has-success')
+		}
 	}
-
-	}
-
-
 
 	function submitForm(event) {
 		if (confirm("Guardar Cambios?")) {
@@ -157,11 +154,11 @@ var View = (function () {
 
 	function addFormEventListeners() {
 		divForm.inputNombre.keyup(function(event) {
-			validate($(this),/[a-zñ]\s*/gi);
+			validate($(this),/^[a-zñ]+( [a-zñ]+)*$/gi);
 			ClienteModel.setNombre($(this).val());
 		});
 		divForm.inputCiudad.keyup(function(event) {
-			validate($(this),/[a-zñ]\s*/gi);
+			validate($(this),/^[a-zñ]+( [a-zñ]+)*$/gi);
 			ClienteModel.setCiudad($(this).val());
 		});
 		divForm.radioSexoM.change(function() {
@@ -173,7 +170,7 @@ var View = (function () {
 				ClienteModel.setSexo("F");
 		});
 		divForm.inputTelefono.keyup(function(event) {
-			validate($(this),/[+]?\d\s?/g);
+			validate($(this),/^([+]\d+[-]?\d+[ ]?)?\d*$/g);
 			ClienteModel.setTelefono($(this).val());
 		});
 		divForm.inputFechaNacimiento.change(function(event) {
