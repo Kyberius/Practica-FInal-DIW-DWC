@@ -1,4 +1,12 @@
-.jumbotron>div {
+body {
+  position: relative;
+}
+
+.jumbotron {
+  margin-bottom: 0;
+}
+
+#tabla, #formulario {
   background-color: #D3D3D3;
 }
 
@@ -12,11 +20,10 @@
 }
 
 .vertical-center {
-  min-height: 100%;  /* Fallback for browsers do NOT support vh unit */
-  min-height: 100vh; /* These two lines are counted as one :-)       */
-
-display: flex;
-align-items: center;
+  min-height: 100%; 
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
 }
 
 form button {
@@ -43,3 +50,19 @@ form button {
   width:1%;
   white-space:nowrap;
 }
+
+.alert {
+  display: none;
+  min-width: 70%;
+}
+
+/*.alert {
+  text-align: center;
+  z-index:1;
+  position: absolute;
+  width: 70%;
+  left: 50%;
+  top: 50%;
+  margin-left: -35%;
+  margin-top: -height;
+}*/
