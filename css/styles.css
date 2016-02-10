@@ -38,6 +38,22 @@ form button {
   margin-bottom: 2%;
 }
 
+#tabla nav{
+  text-align: center;
+  vertical-align: middle;
+}
+
+#tabla nav>ul.pagination {
+  float: right;
+}
+
+#tabla nav>span{
+  margin-top: 20px;
+  vertical-align: middle;
+  float: left;
+  padding: 6px 1em;
+}
+
 .table, .form-horizontal {
   background-color: #EEEEEE;
 }
