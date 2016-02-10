@@ -8,6 +8,6 @@ CREATE TABLE IF NOT EXISTS `cliente` (
   `ciudad` varchar(50) NOT NULL,
   `sexo` char(1) NOT NULL,
   `telefono` varchar(10) NOT NULL,
-  `fecha_nacimiento` datetime NOT NULL,
+  `fecha_nacimiento` date NOT NULL,
   KEY `id` (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
