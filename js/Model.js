@@ -105,7 +105,7 @@ var ClienteModel = (function() {
 		})
 	}
 	function uploadImg() {
-		ImgInputFild.upload("images.php",{id:clienteJSON.id},function() {})
+		ImgInputFild.upload("images.php",{id:clienteJSON.id});
 	}
 	//Public
 	my.new = function() {

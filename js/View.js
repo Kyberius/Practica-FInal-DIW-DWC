@@ -63,7 +63,8 @@ var View = (function () {
 		divForm.radioSexoF = radios.eq(1);
 		divForm.inputTelefono = divForm.find("input[name=telefono]");
 		divForm.inputFechaNacimiento = divForm.find("input[name=fechaNacimiento]");
-		ClienteModel.setImageReference(divForm.find("input:file"));
+		divForm.inputImage = divForm.find("input[name=imagen]");
+		ClienteModel.setImageReference(divForm.inputImage);
 		divForm.buttonReset = divForm.find("button[name=reset]"); 
 		divForm.buttonSubmit = divForm.find("button[name=submit]"); 
 		divForm.buttonBack = divForm.find("button[name=back]");
@@ -92,6 +93,7 @@ var View = (function () {
 		divForm.inputTelefono.val(value).prop('defaultValue',value);
 		value = ClienteModel.getFechaNacimiento() || "";
 		divForm.inputFechaNacimiento.val(value).prop('defaultValue',value);
+		divForm.inputImage.val("");
 	}
 
 	function submitForm(event) {
