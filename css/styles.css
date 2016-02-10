@@ -72,13 +72,10 @@ form button {
   min-width: 70%;
 }
 
-/*.alert {
-  text-align: center;
-  z-index:1;
-  
-  width: 70%;
-  left: 50%;
-  top: 50%;
-  margin-left: -35%;
-  margin-top: -height;
-}*/
+#formulario {
+  display: none;
+}
+
+#formulario>form {
+  padding-top: 1.5em;
+}

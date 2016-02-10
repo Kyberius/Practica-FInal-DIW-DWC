@@ -6,13 +6,14 @@ var ClientesCollection = (function() {
 	var ReadAll = function() {
 		function success(response) {
 			clientes = $.map(response,function(el) {return el});
+			$.publish("modeloCargado",[]);
 		}
 		$.ajax({
 		  type: "POST",
 		  url: "CRUD.php",
 		  success: success,
 		  dataType: "json",
-		  async:false
+		  async:true
 		});
 		sortByName();
 	}
@@ -147,3 +148,6 @@ var ClienteModel = (function() {
 	//Reveal
 	return my;
 }());
+
+/*** initialization ***/
+ClientesCollection.init();

@@ -248,40 +248,29 @@ var View = (function () {
 	//alert model changes
 	function showAlert(alert) {
 		alert.fadeIn(600).center().delay(1500).fadeOut(300);
-		//alert.delay(2000).addClass("in").fadeOut(3500);
-		/*alert.alert();
-		alert.fadeTo(2000, 500).slideUp(500, function(){
-			alert.alert('close');
-		});*/   
 	}
 
+	//initialization method
+	function init(_) { 
+		setParentsPointers();
 
-	//Public
-	return { 
+		//create and append clients table
+		divTable.html(tableCreator(ClientesCollection.getAll()));
+		
+		setChildrenPointers();
 
-		init: function () { 
-			setParentsPointers();
+		//subscribe to Model publish events
+		$.subscribe("insertado",rowInsert);
+		$.subscribe("actualizado",rowUpdate);
+		$.subscribe("borrado",rowRemove);
 
-			//create and append clients table
-			divTable.html(tableCreator(ClientesCollection.getAll()));
-			
-			setChildrenPointers();
+		// add event listeners
+		addTableEventListeners();
+		addFormEventListeners();
+	}
 
-			//subscribe to Model publish events
-			$.subscribe("insertado",rowInsert);
-			$.subscribe("actualizado",rowUpdate);
-			$.subscribe("borrado",rowRemove);
-
-			// add event listeners
-			addTableEventListeners();
-			addFormEventListeners();
-		}
-	} 
+	//	INITIALIZATION SUBSCRIBER
+	$.subscribe("modeloCargado",init);	
 }()); 
 
-/*** initialization ***/
-$.when(ClientesCollection.init()).done(function(){
-	$(window).load(function(){
-		View.init();
-	});
-})	
+
