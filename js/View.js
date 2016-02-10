@@ -43,7 +43,7 @@ var View = (function () {
 	function setParentsPointers() {
 		divTable = $("div#tabla");
 		divForm = $("div#formulario");
-		alert = {};
+		alert = $("div[id$=alert]");
 	}
 
 	function setChildrenPointers() {
@@ -51,9 +51,9 @@ var View = (function () {
 		divTable.tBody = divTable.find("table>tbody");
 
 		//alerts pointers
-		alert.added = $("div#added-alert");
-		alert.edited = $("div#edited-alert");
-		alert.deleted = $("div#deleted-alert");
+		alert.added = alert.eq(0);
+		alert.edited = alert.eq(1);
+		alert.deleted = alert.eq(2);
 
 		//divForm children
 		divForm.inputNombre = divForm.find("input[name=nombres]");
@@ -128,15 +128,11 @@ var View = (function () {
 
 	//Show/hide functions
 	function showForm() {
-		divTable.hide('slow/200/fast', function() {
-			divForm.show('slow/200/fast');
-		});
+		divTable.slideUp(200, function(){divForm.slideDown(200)});
 	}
 
 	function showTable() {
-		divForm.hide('slow/200/fast', function() {
-			divTable.show('slow/200/fast');
-		});
+		divForm.slideUp(200, function(){divTable.slideDown(200)});
 	}
 
 
@@ -251,7 +247,7 @@ var View = (function () {
 
 	//alert model changes
 	function showAlert(alert) {
-		$.when(alert.show().addClass("in").fadeIn(600).center().delay(1500).fadeOut(300)).done(function(){$(this).removeClass("in").hide()});
+		alert.fadeIn(600).center().delay(1500).fadeOut(300);
 		//alert.delay(2000).addClass("in").fadeOut(3500);
 		/*alert.alert();
 		alert.fadeTo(2000, 500).slideUp(500, function(){
