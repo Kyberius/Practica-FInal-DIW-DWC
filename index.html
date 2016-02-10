@@ -31,8 +31,6 @@
 <!--own css -->
 <link type="text/css" rel="stylesheet" href="css/styles.css" />
 
-
-
 <!-- handlebars templates -->
 
 <script id="table-template" type="text/x-handlebars-template">	
@@ -50,24 +48,22 @@
 				{{#clientsArray}}
 					{{> rowtemplate}}
 				{{/clientsArray}}
-			</tbody>
-		</table>
-	</div>
-</script>
+				</tbody>
+			</table>
+		</div>
+	</script>
 
-<script id="row-template" type="text/x-handlebars-template">	
-	<tr id={{id}} class="trCliente">
-		<td class="tdNombres">{{nombres}}</td>
-		<td class="tdCiudad">{{ciudad}}</td>
-		<td class="tdSexo">{{sexo}}</td>
-		<td class="tdTelefono">{{telefono}}</td>
-		<td class="tdFecha">{{fechaNacimiento}}</td>
-		<td class="tdEdit"><button type="button" id="new" name="new" class="btn btn-info btn-sm"><span class="glyphicon glyphicon-pencil" aria-hidden="true"/> &nbsp; Editar</button></td>
-		<td class="tdDelete"><button type="button" id="new" name="new" class="btn btn-danger btn-sm"><span class="glyphicon glyphicon-trash" aria-hidden="true"/> &nbsp; Eliminar</button></td>
-	</tr>
-</script>
-
-
+	<script id="row-template" type="text/x-handlebars-template">	
+		<tr id={{id}} class="trCliente">
+			<td class="tdNombres">{{nombres}}</td>
+			<td class="tdCiudad">{{ciudad}}</td>
+			<td class="tdSexo">{{sexo}}</td>
+			<td class="tdTelefono">{{telefono}}</td>
+			<td class="tdFecha">{{fechaNacimiento}}</td>
+			<td class="tdEdit"><button type="button" id="new" name="new" class="btn btn-info btn-sm"><span class="glyphicon glyphicon-pencil" aria-hidden="true"/> &nbsp; Editar</button></td>
+			<td class="tdDelete"><button type="button" id="new" name="new" class="btn btn-danger btn-sm"><span class="glyphicon glyphicon-trash" aria-hidden="true"/> &nbsp; Eliminar</button></td>
+		</tr>
+	</script>
 </head>
 
 <body>
@@ -142,16 +138,29 @@
 					<!-- Actions Buttons -->
 					<div class="form-group">
 						<div class="col-md-8 col-md-offset-4">
-						<button type="button" id="submit" name="submit" class="btn btn-success">Guardar</button>
-						<button type="button" id="reset" name="reset" class="btn btn-warning">Borrar</button>
-						<button type="button" id="back" name="back" class="btn btn-primary">Volver</button>
+							<button type="button" id="submit" name="submit" class="btn btn-success">Guardar</button>
+							<button type="button" id="reset" name="reset" class="btn btn-warning">Borrar</button>
+							<button type="button" id="back" name="back" class="btn btn-primary">Volver</button>
 						</div>
 					</div>
 				</fieldset>
 			</form>
 		</div>
-
-
+	</div>
+	
+	<!--alert divs-->
+	<div id="alerts">
+	<div id="added-alert" class="alert alert-success fade">
+		<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+		Cliente añadido con éxito.
+	</div>
+	<div id="edited-alert" class="alert alert-info fade">
+		<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+		Cliente editado con éxito.
+	</div>
+	<div id="deleted-alert" class="alert alert-warning fade">
+		<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+		Cliente eliminado con éxito.
 	</div>
 </body>
 </html>

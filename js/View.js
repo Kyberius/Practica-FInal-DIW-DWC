@@ -1,9 +1,16 @@
 var View = (function () { 
+	//Jquery center functtion
+	$.fn.center = function() {
+		this.css("position","absolute").css("z-index","5000")
+		.css("top","50%").css("left","50%")
+		.css("margin",(-(this.height()/2))+"px 0 0 "+(-(this.width()/2))+"px"); 
+		return this;
+	};
 
-
-	//Page objects variables
+	//Page ojects variables
 	var divTable;
 	var divForm;
+	var alert;
 
 
 	//HandleBars variables
@@ -36,11 +43,17 @@ var View = (function () {
 	function setParentsPointers() {
 		divTable = $("div#tabla");
 		divForm = $("div#formulario");
+		alert = {};
 	}
 
 	function setChildrenPointers() {
 		//divTable children
 		divTable.tBody = divTable.find("table>tbody");
+
+		//alerts pointers
+		alert.added = $("div#added-alert");
+		alert.edited = $("div#edited-alert");
+		alert.deleted = $("div#deleted-alert");
 
 		//divForm children
 		divForm.inputNombre = divForm.find("input[name=nombres]");
@@ -86,7 +99,6 @@ var View = (function () {
 			//... validar los campos
 			
 			ClienteModel.save();
-			showTable();
 		}
 	}
 
@@ -189,15 +201,33 @@ var View = (function () {
 	function rowInsert(_,clienteJSON) { 
 		divTable.tBody.append(rowCreator(clienteJSON));
 		addRowEventListeners(clienteJSON.id);
+		divForm.hide();
+		divTable.show();
+		//showTable();
+		showAlert(alert.added);
 	}	
 
 	function rowUpdate(_,clienteJSON) { 
 		divTable.tBody.find('#' + clienteJSON.id).replaceWith(rowCreator(clienteJSON));
 		addRowEventListeners(clienteJSON.id);
+		showTable();
+		showAlert(alert.edited);
 	}
 
 	function rowRemove(_,id) { 
 		divTable.tBody.find('#' + id).remove();
+		showTable();
+		showAlert(alert.deleted);
+	}
+
+	//alert model changes
+	function showAlert(alert) {
+		$.when(alert.show().addClass("in").fadeIn(600).center().delay(1500).fadeOut(300)).done(function(){$(this).removeClass("in").hide()});
+		//alert.delay(2000).addClass("in").fadeOut(3500);
+		/*alert.alert();
+		alert.fadeTo(2000, 500).slideUp(500, function(){
+			alert.alert('close');
+		});*/   
 	}
 
 
