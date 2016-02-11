@@ -151,11 +151,11 @@ var View = (function () {
 	}
 
 	function addFormEventListeners() {
-		divForm.inputNombre.keyup(function(event) {
+		divForm.inputNombre.bind("keyup change",function(event) {
 			validate($(this),/^[a-zñ]+( [a-zñ]+)*$/gi);
 			ClienteModel.setNombre($(this).val());
 		});
-		divForm.inputCiudad.keyup(function(event) {
+		divForm.inputCiudad.bind("keyup change",function(event) {
 			validate($(this),/^[a-zñ]+( [a-zñ]+)*$/gi);
 			ClienteModel.setCiudad($(this).val());
 		});
@@ -167,8 +167,8 @@ var View = (function () {
 			if ($(this).prop("checked")) 
 				ClienteModel.setSexo("F");
 		});
-		divForm.inputTelefono.keyup(function(event) {
-			validate($(this),/^([+]\d+[-]?\d+[ ]?)?\d*$/g);
+		divForm.inputTelefono.bind("keyup change",function(event) {
+			validate($(this),/^[+[0-9]{1,2}-?[0-9]{1,3}\s?]?[0-9]*$/);
 			ClienteModel.setTelefono($(this).val());
 		});
 		divForm.inputFechaNacimiento.change(function(event) {
