@@ -19,6 +19,10 @@ body {
   padding: 2%;
 }
 
+.panel {
+  margin-bottom: 0;
+}
+
 .vertical-center {
   min-height: 100%; 
   min-height: 100vh;
@@ -28,6 +32,14 @@ body {
 
 form button {
   margin-left: 5%;
+}
+
+form label.radio-inline {
+  margin-right: 10px;
+}
+
+form label.radio-inline+.radio-inline {
+    margin-left: 0;
 }
 
 #tabla {
@@ -74,8 +86,9 @@ form button {
 
 #formulario {
   display: none;
+  max-width: 700px;
 }
 
-#formulario>form {
+#formulario form {
   padding-top: 1.5em;
 }
