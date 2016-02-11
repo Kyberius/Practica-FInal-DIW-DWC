@@ -50,6 +50,11 @@ var View = (function () {
 		//divTable children
 		divTable.tBody = divTable.find("table>tbody");
 
+		divTable.selectPageSize = divTable.find("nav select[name=pageSize]");
+		divTable.ulPag = divTable.find("nav ul.pagination");
+		divTable.ulPag.firstUl = divTable.ulPag.find("li:first-child");
+		divTable.ulPag.lastUl = divTable.ulPag.find("li:last-child");
+		divTable.ulPag.activeUl = divTable.ulPag.find("li.active");
 		//alerts pointers
 		alert.added = alert.eq(0);
 		alert.edited = alert.eq(1);
@@ -87,9 +92,6 @@ var View = (function () {
 		else if (sexo == "F") {
 			divForm.radioSexoF.attr('checked', 'checked');
 			divForm.radioSexoM.prop('checked', false);
-		} else {
-			divForm.radioSexoM.removeAttr('checked').removeProp('checked');
-			divForm.radioSexoF.removeAttr('checked').removeProp('checked');
 		}
 		value = ClienteModel.getTelefono() || "";
 		divForm.inputTelefono.val(value).prop('defaultValue',value);
@@ -141,6 +143,7 @@ var View = (function () {
 		divTable.find(">#new").click(newClick);
 		divTable.tBody.find("tr .tdDelete").click(deleteClick);
 		divTable.tBody.find("tr .tdEdit").click(editClick);
+		divTable.inputPageSize.change(pageSizeChange);
 	}
 
 	function addRowEventListeners(id) {
@@ -204,7 +207,7 @@ var View = (function () {
 	
 
 
-	//table clicks handle functions
+	//table events handle functions
 	function newClick(event) {
 		ClienteModel.new();
 		fillForm();
@@ -220,6 +223,17 @@ var View = (function () {
 		ClienteModel.edit($(this).parent().attr("id"));
 		fillForm();
 		showForm();
+	}
+
+	function pageSizeChange(event) {
+		console.log("pagesize changed=> " + $(this).val());
+		var pageSize = $(this).val();
+		var pageNumber = divTable.ulPag.activeUl.children().first().html();
+		var showingPageSize = divTable.tBody.children().size();
+		//si se muestra el mismo numero nada 
+		//(comprobar numero con CC.size y calcular o con getpage.size())
+		var pageClients = ClientesCollection.getPage();
+		//if ( < )
 	}
 
 	//subscribers for model publishers
