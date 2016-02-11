@@ -33,9 +33,9 @@ var ClientesCollection = (function() {
 		return findById(id);
 	}
 	var getPage = function(size,page) {
-		inicio =size*(page-1);
-		fin = inicio + size;
-		return clientes.slice(incio,fin);
+		var inicio =size*(page-1);
+		var fin = inicio + size;
+		return clientes.slice(inicio,fin);
 	}
 	//Subscribers
 	var add = function(_,cliente) {

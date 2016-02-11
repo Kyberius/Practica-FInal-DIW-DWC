@@ -143,7 +143,7 @@ var View = (function () {
 		divTable.find(">#new").click(newClick);
 		divTable.tBody.find("tr .tdDelete").click(deleteClick);
 		divTable.tBody.find("tr .tdEdit").click(editClick);
-		divTable.inputPageSize.change(pageSizeChange);
+		divTable.selectPageSize.change(pageSizeChange);
 	}
 
 	function addRowEventListeners(id) {
@@ -232,7 +232,7 @@ var View = (function () {
 		var showingPageSize = divTable.tBody.children().size();
 		//si se muestra el mismo numero nada 
 		//(comprobar numero con CC.size y calcular o con getpage.size())
-		var pageClients = ClientesCollection.getPage();
+		var pageClients = ClientesCollection.getPage(pageSize,pageNumber);
 		//if ( < )
 	}
 
