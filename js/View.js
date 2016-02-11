@@ -22,7 +22,7 @@ var View = (function () {
 
 	
 	//HandleBars templates functions
-	function tableCreator(clientsArray) {
+	function HBTableCreator(clientsArray) {
 		HBtableSource = (typeof HBtableSource === "undefined")?$("#table-template").html():HBtableSource; 
 		HBtableTemplate = (typeof HBtableTemplate === "undefined")?Handlebars.compile(HBtableSource):HBtableTemplate; 
 		HBtableData = {clientsArray: clientsArray};
@@ -33,7 +33,7 @@ var View = (function () {
 		return HBtableTemplate(HBtableData);
 	}
 
-	function rowCreator(cJson) {
+	function HBRowCreator(cJson) {
 		HBrowTemplate = (typeof HBrowTemplate === "undefined")?Handlebars.compile(HBrowSource):HBrowTemplate; 
 		return HBrowTemplate(cJson);
 	}
@@ -108,7 +108,6 @@ var View = (function () {
 
 	function submitForm(event) {
 		if (confirm("Guardar Cambios?")) {
-			//... validar los campos
 			ClienteModel.save();
 		}
 	}
@@ -229,25 +228,24 @@ var View = (function () {
 		console.log("pagesize changed=> " + $(this).val());
 		var pageSize = $(this).val();
 		var pageNumber = divTable.ulPag.activeUl.children().first().html();
-		var showingPageSize = divTable.tBody.children().size();
-		//si se muestra el mismo numero nada 
-		//(comprobar numero con CC.size y calcular o con getpage.size())
-		var pageClients = ClientesCollection.getPage(pageSize,pageNumber);
-		//if ( < )
+		appendTable(HBTableCreator(ClientesCollection.getPage(pageSize,1)));
+		
+		setChildrenPointers();
+
+		// add event listeners
+		addTableEventListeners();
 	}
 
 	//subscribers for model publishers
 	function rowInsert(_,clienteJSON) { 
-		divTable.tBody.append(rowCreator(clienteJSON));
+		divTable.tBody.append(HBRowCreator(clienteJSON));
 		addRowEventListeners(clienteJSON.id);
-		divForm.hide();
-		divTable.show();
-		//showTable();
+		showTable();
 		showAlert(alert.added);
 	}	
 
 	function rowUpdate(_,clienteJSON) { 
-		divTable.tBody.find('#' + clienteJSON.id).replaceWith(rowCreator(clienteJSON));
+		divTable.tBody.find('#' + clienteJSON.id).replaceWith(HBRowCreator(clienteJSON));
 		addRowEventListeners(clienteJSON.id);
 		showTable();
 		showAlert(alert.edited);
@@ -264,27 +262,29 @@ var View = (function () {
 		alert.fadeIn(600).center().delay(1500).fadeOut(300);
 	}
 
+	//table appender
+	function appendTable(table) {
+		divTable.html(table);
+		setChildrenPointers();
+		addTableEventListeners();
+	}
+
 	//initialization method
 	function init(_) { 
 		setParentsPointers();
 
-		//create and append clients table
-		divTable.html(tableCreator(ClientesCollection.getAll()));
+		//create, set pointers and event listeners and append the table
+		appendTable(HBTableCreator(ClientesCollection.getAll()));
 		
-		setChildrenPointers();
+		addFormEventListeners();
 
 		//subscribe to Model publish events
 		$.subscribe("insertado",rowInsert);
 		$.subscribe("actualizado",rowUpdate);
 		$.subscribe("borrado",rowRemove);
 
-		// add event listeners
-		addTableEventListeners();
-		addFormEventListeners();
 	}
 
 	//	INITIALIZATION SUBSCRIBER
 	$.subscribe("modeloCargado",init);	
 }()); 
-
-
