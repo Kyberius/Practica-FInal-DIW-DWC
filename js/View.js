@@ -169,7 +169,7 @@ var View = (function () {
 				ClienteModel.setSexo("F");
 		});
 		divForm.inputTelefono.bind("keyup change",function(event) {
-			validate($(this),/^([+]\d+[-]?\d+[ ]?)?\d*$/g);
+			validate($(this),/^[+[0-9]{1,2}-?[0-9]{1,3}\s?]?[0-9]*$/);
 			ClienteModel.setTelefono($(this).val());
 		});
 		divForm.inputFechaNacimiento.change(function(event) {
