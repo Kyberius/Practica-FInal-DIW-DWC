@@ -43,7 +43,7 @@ var ClientesCollection = (function() {
 	}
 
 	var remove = function(_,id) {
-		index = $.map(clientes,function(e) {return e.id}).indexOf(id*1)
+		var index = $.map(clientes,function(e) {return e.id}).indexOf(id*1)
 		clientes.splice(index,1);
 	}
 	//Sorting
