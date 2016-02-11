@@ -92,6 +92,9 @@ var View = (function () {
 		else if (sexo == "F") {
 			divForm.radioSexoF.attr('checked', 'checked');
 			divForm.radioSexoM.prop('checked', false);
+		} else {
+			divForm.radioSexoM.removeAttr('checked').removeProp('checked');
+			divForm.radioSexoF.removeAttr('checked').removeProp('checked');
 		}
 		value = ClienteModel.getTelefono() || "";
 		divForm.inputTelefono.val(value).prop('defaultValue',value);
