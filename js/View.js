@@ -92,9 +92,6 @@ var View = (function () {
 		else if (sexo == "F") {
 			divForm.radioSexoF.attr('checked', 'checked');
 			divForm.radioSexoM.prop('checked', false);
-		} else {
-			divForm.radioSexoM.removeAttr('checked').removeProp('checked');
-			divForm.radioSexoF.removeAttr('checked').removeProp('checked');
 		}
 		value = ClienteModel.getTelefono() || "";
 		divForm.inputTelefono.val(value).prop('defaultValue',value);
@@ -103,7 +100,6 @@ var View = (function () {
 		divForm.inputFechaNacimiento.val(value).prop('defaultValue',value);
 		emptyFormValidate(divForm.inputFechaNacimiento);
 		divForm.inputImage.val("");
-		divForm.buttonSubmit.prop('disabled',false);
 		function emptyFormValidate(elem) {
 			elem.parent().parent().removeClass('has-error has-success')
 		}
@@ -197,12 +193,10 @@ var View = (function () {
 		function errorContent() {
 			element.parent().parent().removeClass('has-success');
 			element.parent().parent().addClass('has-error');
-			divForm.buttonSubmit.prop('disabled',true);
 		}
 		function successCotent() {
 			element.parent().parent().removeClass('has-error');
 			element.parent().parent().addClass('has-success');
-			divForm.buttonSubmit.prop('disabled',false);
 		}
 	}
 
