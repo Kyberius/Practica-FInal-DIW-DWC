@@ -83,6 +83,12 @@ form label.radio-inline+.radio-inline {
   display: none;
   min-width: 70%;
 }
+.mypopover>div{
+  padding:1em;
+}
+.popimg {
+  max-width:15em;
+}
 
 #formulario {
   display: none;

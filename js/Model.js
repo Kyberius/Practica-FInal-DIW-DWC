@@ -86,15 +86,15 @@ var ClienteModel = (function() {
 	function insertDB() {
 		clienteJSON.type = "C";
 		$.post("CRUD.php",clienteJSON,function(cliente) {
-			$.publish("insertado",[cliente]);
 			uploadImg(cliente.id);
+			$.publish("insertado",[cliente]);
 		},"JSON");
 	}
 	function updateDB() {
 		clienteJSON.type = "U";
 		$.post("CRUD.php",clienteJSON,function(cliente) {
-			$.publish("actualizado",[cliente]);
 			uploadImg(cliente.id);
+			$.publish("actualizado",[cliente]);
 		},"JSON")
 	}
 
