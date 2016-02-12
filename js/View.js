@@ -273,41 +273,42 @@ var View = (function () {
 	}
 
 	//subscribers for model publishers
-	function rowInsert(_,clienteJSON) {/* 
-		var cliArr = $.extend(true, {}, ClientesCollection.getPage(HBtableData.pageSize,HBtableData.currentPage));
+	function rowInsert(_,clienteJSON) {
+		var cliArr = $.extend(true, [], ClientesCollection.getPage(HBtableData.pageSize,HBtableData.currentPage));
 		var is_same = (cliArr.length == HBtableData.clientsArray.length) && cliArr.every(function(element, index) {
-			return element === HBtableData.clientsArray[index]; 
-		});		
-		if (!is_same) {*/
+			return element.id == HBtableData.clientsArray[index].id &&
+			element.nombres == HBtableData.clientsArray[index].nombres &&
+			element.ciudad == HBtableData.clientsArray[index].ciudad &&
+			element.sexo == HBtableData.clientsArray[index].sexo &&
+			element.telefono == HBtableData.clientsArray[index].telefono; 
+		});
+		if (!is_same) {
 			appendTable(HBTableCreator(HBtableData.pageSize,HBtableData.currentPage));
-		//}
+		}
 		showTable();
 		showAlert(alert.added);
 	}	
 
 	function rowUpdate(_,clienteJSON) { 
-		/*
-		var cliArr = $.extend(true, {}, ClientesCollection.getPage(HBtableData.pageSize,HBtableData.currentPage));
-		var is_same = (cliArr.length == HBtableData.clientsArray.length) && cliArr.every(function(element, index) {
-			return element === HBtableData.clientsArray[index]; 
+		var cliArr = $.extend(true, [], ClientesCollection.getPage(HBtableData.pageSize,HBtableData.currentPage));
+		var newIndex = -1;
+		cliArr.every(function(element, index) {
+			if (element.id == clienteJSON.id)
+				newIndex = index;
 		});
-		if (!is_same) {
-			var newIndex= $.inArray(clienteJSON, cliArr);
-			if (newIndex == -1) {*/
-				appendTable(HBTableCreator(HBtableData.pageSize,HBtableData.currentPage));
-		/*	} else {
-				if (cliArr[newIndex].id == HBtableData.clientsArray[newIndex].id) {
-					divTable.tBody.find('#' + clienteJSON.id).replaceWith(HBRowCreator(clienteJSON));
-					addRowEventListeners(clienteJSON.id);
-				} else {
-					divTable.tBody.find('#' + clienteJSON.id).remove();
-					$(HBRowCreator(clienteJSON)).insertBefore(divTable.tBody.children().eq(newIndex))				
-					addRowEventListeners(clienteJSON.id);
-				}
+		if (newIndex == -1) {
+			appendTable(HBTableCreator(HBtableData.pageSize,HBtableData.currentPage));
+		} else {
+			if (cliArr[newIndex].id == HBtableData.clientsArray[newIndex].id) {
+				divTable.tBody.find('#' + clienteJSON.id).replaceWith(HBRowCreator(clienteJSON));
+				addRowEventListeners(clienteJSON.id);
+			} else {
+				divTable.tBody.find('#' + clienteJSON.id).remove();
+				$(HBRowCreator(clienteJSON)).insertBefore(divTable.tBody.children().eq(newIndex));
+				addRowEventListeners(clienteJSON.id);
 			}
-			HBtableData.clientsArray = cliArr;
 		}
-		*/
+		HBtableData.clientsArray = cliArr;
 		showTable();
 		showAlert(alert.edited);
 	}

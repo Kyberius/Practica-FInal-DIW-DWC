@@ -48,6 +48,8 @@ var ClientesCollection = (function() {
 	}
 
 	var update = function(_,cliente) {
+		index = $.map(clientes,function(e) {return e.id}).indexOf(cliente.id);
+		clientes[index] = cliente;
 		sortByName();
 		$.publish("actualizadoenmodelo",[cliente]);
 	}
