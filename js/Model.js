@@ -113,7 +113,7 @@ var ClienteModel = (function() {
 		})
 	}
 	function uploadImg(id) {
-		imagen.upload("images.php",{id:id}));
+		imagen.upload("images.php",{id:id});
 	}
 	//Public
 	my.new = function() {
