@@ -28,8 +28,8 @@ var View = (function () {
 		HBtableData.pageSize=(size*1 == 0?(typeof(divTable.selectPageSize) == "undefined"?10:divTable.selectPageSize.val()*1):size*1);
 		HBtableData.numberOfPages = Math.ceil(ClientesCollection.getSize() / HBtableData.pageSize);
 		HBtableData.currentPage = (HBtableData.numberOfPages < page)?HBtableData.numberOfPages:page;
-		HBtableData.firstClass = (HBtableData.currentPage == 1?"Disabled":"");
-		HBtableData.lastClass = (HBtableData.currentPage == HBtableData.numberOfPages?"Disabled":"");
+		HBtableData.firstClass = (HBtableData.currentPage == 1?"disabled":"");
+		HBtableData.lastClass = (HBtableData.currentPage == HBtableData.numberOfPages?"disabled":"");
 		HBtableData.clientsArray = ClientesCollection.getPage(HBtableData.pageSize,HBtableData.currentPage);
 
 		HBtableSource = (typeof HBtableSource === "undefined")?$("#table-template").html():HBtableSource; 
@@ -40,8 +40,6 @@ var View = (function () {
 			Handlebars.registerPartial("rowtemplate", HBrowSource);
 			//helpers
 			Handlebars.registerHelper('ifEquals', function(v1, v2, options) {
-				if (v1 == 1 || v2 == 1)
-					console.log("es uno");
 				if(v1 == v2) {
 					return options.fn(this);
 				}
@@ -76,9 +74,10 @@ var View = (function () {
 
 		divTable.selectPageSize = divTable.find("nav select[name=pageSize]");
 		divTable.ulPag = divTable.find("nav ul.pagination");
-		divTable.ulPag.firstUl = divTable.ulPag.find("li:first-child");
-		divTable.ulPag.lastUl = divTable.ulPag.find("li:last-child");
+		divTable.ulPag.firstUl = divTable.ulPag.find("li:first-child:not(.disabled)");
+		divTable.ulPag.lastUl = divTable.ulPag.find("li:last-child:not(.disabled)");
 		divTable.ulPag.activeUl = divTable.ulPag.find("li.active");
+		divTable.ulPag.clickablePagesUls = divTable.ulPag.find(">li:not(:first-child):not(:last-child):not(.active)");
 		//alerts pointers
 		alert.added = alert.eq(0);
 		alert.edited = alert.eq(1);
@@ -168,7 +167,11 @@ var View = (function () {
 		divTable.find(">#new").click(newClick);
 		divTable.tBody.find("tr .tdDelete").click(deleteClick);
 		divTable.tBody.find("tr .tdEdit").click(editClick);
+
 		divTable.selectPageSize.change(pageSizeChange);
+		divTable.ulPag.firstUl.click(firstClick);
+		divTable.ulPag.lastUl.click(lastClick);
+		divTable.ulPag.clickablePagesUls.click(pageClick);
 	}
 
 	function addRowEventListeners(id) {
@@ -248,9 +251,21 @@ var View = (function () {
 		showForm();
 	}
 
+	function pageClick(event) {
+		appendTable(HBTableCreator(HBtableData.pageSize,$(this).children(":first-child").html()));
+	}
+
+	function firstClick(event) {
+		appendTable(HBTableCreator(HBtableData.pageSize,1));
+	}
+
+	function lastClick(event) {
+		appendTable(HBTableCreator(HBtableData.pageSize,divTable.ulPag.clickablePagesUls.last().children(":first-child").html()));
+	}
+
 	function pageSizeChange(event) {
 		var pageSize = $(this).val();
-		var pageNumber = divTable.ulPag.activeUl.children().first().html(); // || HBtableData.currentPage
+		var pageNumber = divTable.ulPag.activeUl.children(":first-child").html(); // || HBtableData.currentPage
 		appendTable(HBTableCreator(pageSize,pageNumber));
 	}
 
