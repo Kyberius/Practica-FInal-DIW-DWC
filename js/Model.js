@@ -62,7 +62,7 @@ var ClientesCollection = (function() {
 	}
 	var sortByName = function() {
 		clientes.sort(function(a,b) {
-			return a.nombres<b.nombres?-1:a.nombres>b.nombres?1:0;
+			return a.nombres.toLowerCase()<b.nombres.toLowerCase()?-1:a.nombres.toLowerCase()>b.nombres.toLowerCase()?1:0;
 		})
 	}
 	//Reveal 
