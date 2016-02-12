@@ -302,10 +302,9 @@ var View = (function () {
 
 	function addPopover(element) {
 		const MY_POPOVER = '<div id="mypopover" class="popover"><div class="popover-title"></div></div>';
-		var imagen = $('<img class="popimg" src="profiles/dummy.jpg">').error(function() {
+		var imagen = $('<img class="popimg" src="dummy.jpg">').error(function() {
 			$(this).attr("src","profiles/no-photo.jpg")}
-			);
-		element.popover("destroy");
+		);
 		element.popover({
 			trigger:"hover",
 			placement:"auto top",
@@ -313,10 +312,9 @@ var View = (function () {
 			html:true,
 			template:MY_POPOVER
 		});
-		imagen.attr("src",'profiles/'+element.attr("id")+'.jpg');
-
-		
-
+		$.post("images.php",{id:element.attr('id')},function(imgsrc) {
+			imagen.attr('src',imgsrc);
+		});
 	}
 	//table appender
 	function appendTable(table) {
