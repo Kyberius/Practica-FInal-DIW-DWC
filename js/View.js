@@ -179,7 +179,7 @@ var View = (function () {
 	function addRowEventListeners(id) {
 		divTable.tBody.find("tr#" + id + " .tdDelete").click(deleteClick);
 		divTable.tBody.find("tr#" + id + " .tdEdit").click(editClick);
-		settimeout(addPopover(divTable.tBody.find("tr#"+id)),500);
+		setTimeout(addPopover(divTable.tBody.find("tr#"+id)),500);
 	}
 
 	function addFormEventListeners() {
