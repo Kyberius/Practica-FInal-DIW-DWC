@@ -4,6 +4,7 @@ var ClientesCollection = (function() {
 	var ReadAll = function() {
 		function success(response) {
 			clientes = $.map(response,function(el) {return el});
+			sortByName();
 			$.publish("modeloCargado",[]);
 		}
 		$.ajax({
@@ -13,7 +14,6 @@ var ClientesCollection = (function() {
 		  dataType: "json",
 		  async:true
 		});
-		sortByName();
 	}
 	var findById = function(id) {
 		return clientes.find(function(element,index,array) {
@@ -38,6 +38,8 @@ var ClientesCollection = (function() {
 	//Subscribers
 	var add = function(_,cliente) {
 		clientes.push(cliente);
+		sortByName();
+		$.publish("insertadoenmodelo",[cliente]);
 	}
 
 	var remove = function(_,id) {

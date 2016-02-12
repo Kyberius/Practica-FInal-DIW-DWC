@@ -271,8 +271,10 @@ var View = (function () {
 
 	//subscribers for model publishers
 	function rowInsert(_,clienteJSON) { 
-		divTable.tBody.append(HBRowCreator(clienteJSON));
-		addRowEventListeners(clienteJSON.id);
+		var cliArr = ClientesCollection.getPage(HBtableData.pageSize,HBtableData.currentPage);
+		if (cliArr != HBtableData.clientsArray) {
+			appendTable(HBTableCreator(HBtableData.pageSize,HBtableData.currentPage));
+		}
 		showTable();
 		showAlert(alert.added);
 	}	
@@ -312,7 +314,7 @@ var View = (function () {
 		addFormEventListeners();
 
 		//subscribe to Model publish events
-		$.subscribe("insertado",rowInsert);
+		$.subscribe("insertadoenmodelo",rowInsert);
 		$.subscribe("actualizado",rowUpdate);
 		$.subscribe("borrado",rowRemove);
 
