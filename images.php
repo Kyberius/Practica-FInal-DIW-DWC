@@ -4,6 +4,11 @@ $target = 'profiles/'.$_POST["id"].".jpg";
 if (isset($_FILES['imagen'])) {
 	move_uploaded_file($_FILES['imagen']['tmp_name'], $target);
 } else {
-	echo $target.'?m='.filemtime($target);
+	if (file_exists($target)) {
+		echo $target.'?m='.filemtime($target);
+	} else {
+		echo 'profiles/no-photo.jpg';
+	}
+	
 }
 ?>

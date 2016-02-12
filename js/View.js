@@ -179,7 +179,7 @@ var View = (function () {
 	function addRowEventListeners(id) {
 		divTable.tBody.find("tr#" + id + " .tdDelete").click(deleteClick);
 		divTable.tBody.find("tr#" + id + " .tdEdit").click(editClick);
-		addPopover(divTable.tBody.find("tr#"+id));
+		settimeout(addPopover(divTable.tBody.find("tr#"+id)),500);
 	}
 
 	function addFormEventListeners() {
@@ -323,21 +323,18 @@ var View = (function () {
 	function showAlert(alert) {
 		alert.fadeIn(500).center().delay(500).fadeOut(500);
 	}
-
-	function addPopover(element) {
 		const MY_POPOVER = '<div id="mypopover" class="popover"><div class="popover-title"></div></div>';
-		var imagen = $('<img class="popimg" src="dummy.jpg">').error(function() {
-			$(this).attr("src","profiles/no-photo.jpg")}
-		);
+	function addPopover(element) {
+		var imagen = $('<img class="popimg" src="">');
+		$.post("images.php",{id:element.attr('id')},function(imgsrc) {
+			imagen.attr('src',imgsrc);
+		});
 		element.popover({
 			trigger:"hover",
 			placement:"auto top",
 			title:imagen,
 			html:true,
 			template:MY_POPOVER
-		});
-		$.post("images.php",{id:element.attr('id')},function(imgsrc) {
-			imagen.attr('src',imgsrc);
 		});
 	}
 	//table appender
@@ -360,7 +357,6 @@ var View = (function () {
 		$.subscribe("insertadoenmodelo",rowInsert);
 		$.subscribe("actualizadoenmodelo",rowUpdate);
 		$.subscribe("borrado",rowRemove);
-
 	}
 
 	//	INITIALIZATION SUBSCRIBER
