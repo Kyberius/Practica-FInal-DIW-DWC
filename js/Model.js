@@ -113,7 +113,7 @@ var ClienteModel = (function() {
 		})
 	}
 	function uploadImg(id) {
-		$.when(imagen.upload("images.php",{id:id})).done();
+		imagen.upload("images.php",{id:id}));
 	}
 	//Public
 	my.new = function() {
