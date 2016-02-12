@@ -1,5 +1,3 @@
-//3.-habria que volver al ReadAll async con un pub-sub que dispare View.init
-
 var ClientesCollection = (function() {
 	//Private
 	var clientes = [];
@@ -26,9 +24,6 @@ var ClientesCollection = (function() {
 	var getAll = function() {
 		return clientes;
 	}
-	var getSize = function() {
-		return clientes.length;
-	}
 	var getById = function(id) {
 		return findById(id);
 	}
@@ -36,6 +31,9 @@ var ClientesCollection = (function() {
 		var inicio =size*(page-1);
 		var fin = inicio + size;
 		return clientes.slice(inicio,fin);
+	}
+	var getSize = function() {
+		return clientes.length;
 	}
 	//Subscribers
 	var add = function(_,cliente) {
@@ -74,7 +72,6 @@ var ClientesCollection = (function() {
 }());
 
 
-//Actualizar todas las llamadas a publish suscriber
 var ClienteModel = (function() {
 	var my = {};
 	//Private
@@ -107,7 +104,7 @@ var ClienteModel = (function() {
 		})
 	}
 	function uploadImg(id) {
-		ImgInputFild.upload("images.php",{id:id});
+		imagen.upload("images.php",{id:id});
 	}
 	//Public
 	my.new = function() {
