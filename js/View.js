@@ -167,7 +167,9 @@ var View = (function () {
 		divTable.find(">#new").click(newClick);
 		divTable.tBody.find("tr .tdDelete").click(deleteClick);
 		divTable.tBody.find("tr .tdEdit").click(editClick);
-
+		divTable.tBody.find("tr").each(function(index, el) {
+			addPopover($(this));
+		});
 		divTable.selectPageSize.change(pageSizeChange);
 		divTable.ulPag.firstUl.click(firstClick);
 		divTable.ulPag.lastUl.click(lastClick);
@@ -177,6 +179,7 @@ var View = (function () {
 	function addRowEventListeners(id) {
 		divTable.tBody.find("tr#" + id + " .tdDelete").click(deleteClick);
 		divTable.tBody.find("tr#" + id + " .tdEdit").click(editClick);
+		addPopover(divTable.tBody.find("tr#"+id));
 	}
 
 	function addFormEventListeners() {
@@ -297,6 +300,24 @@ var View = (function () {
 		alert.fadeIn(500).center().delay(500).fadeOut(500);
 	}
 
+	function addPopover(element) {
+		const MY_POPOVER = '<div id="mypopover" class="popover"><div class="popover-title"></div></div>';
+		var imagen = $('<img class="popimg" src="profiles/dummy.jpg">').error(function() {
+			$(this).attr("src","profiles/no-photo.jpg")}
+			);
+		element.popover("destroy");
+		element.popover({
+			trigger:"hover",
+			placement:"auto top",
+			title:imagen,
+			html:true,
+			template:MY_POPOVER
+		});
+		imagen.attr("src",'profiles/'+element.attr("id")+'.jpg');
+
+		
+
+	}
 	//table appender
 	function appendTable(table) {
 		divTable.html(table);
