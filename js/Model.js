@@ -128,7 +128,6 @@ var ClienteModel = (function() {
 	}
 	my.save = function() {
 		!!clienteJSON.id?updateDB():insertDB();
-		//uploadImg();
 		empty();
 	}
 
