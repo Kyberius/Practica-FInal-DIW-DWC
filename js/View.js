@@ -22,13 +22,37 @@ var View = (function () {
 
 	
 	//HandleBars templates functions
-	function HBTableCreator(clientsArray) {
+	function HBTableCreator(size,page) {
+		page=(page*1 == 0?1:page*1);
+		HBtableData = {};
+		HBtableData.pageSize=(size*1 == 0?(typeof(divTable.selectPageSize) == "undefined"?10:divTable.selectPageSize.val()*1):size*1);
+		HBtableData.numberOfPages = Math.ceil(ClientesCollection.getSize() / HBtableData.pageSize);
+		HBtableData.currentPage = (HBtableData.numberOfPages < page)?HBtableData.numberOfPages:page;
+		HBtableData.firstClass = (HBtableData.currentPage == 1?"Disabled":"");
+		HBtableData.lastClass = (HBtableData.currentPage == HBtableData.numberOfPages?"Disabled":"");
+		HBtableData.clientsArray = ClientesCollection.getPage(HBtableData.pageSize,HBtableData.currentPage);
+
 		HBtableSource = (typeof HBtableSource === "undefined")?$("#table-template").html():HBtableSource; 
 		HBtableTemplate = (typeof HBtableTemplate === "undefined")?Handlebars.compile(HBtableSource):HBtableTemplate; 
-		HBtableData = {clientsArray: clientsArray};
-		if (typeof HBrowSource === "undefined") {
+		if (typeof HBrowSource === "undefined") { //first time
+			//partial
 			HBrowSource = $("#row-template").html();
 			Handlebars.registerPartial("rowtemplate", HBrowSource);
+			//helpers
+			Handlebars.registerHelper('ifEquals', function(v1, v2, options) {
+				if (v1 == 1 || v2 == 1)
+					console.log("es uno");
+				if(v1 == v2) {
+					return options.fn(this);
+				}
+				return options.inverse(this);
+			});
+			Handlebars.registerHelper('fromTo', function(start, end, block) {
+				var accum = '';
+				for(var i = start; i <= end; ++i)
+					accum += block.fn(i);
+				return accum;
+			});
 		}
 		return HBtableTemplate(HBtableData);
 	}
@@ -225,15 +249,9 @@ var View = (function () {
 	}
 
 	function pageSizeChange(event) {
-		console.log("pagesize changed=> " + $(this).val());
 		var pageSize = $(this).val();
-		var pageNumber = divTable.ulPag.activeUl.children().first().html();
-		appendTable(HBTableCreator(ClientesCollection.getPage(pageSize,1)));
-		
-		setChildrenPointers();
-
-		// add event listeners
-		addTableEventListeners();
+		var pageNumber = divTable.ulPag.activeUl.children().first().html(); // || HBtableData.currentPage
+		appendTable(HBTableCreator(pageSize,pageNumber));
 	}
 
 	//subscribers for model publishers
@@ -259,7 +277,7 @@ var View = (function () {
 
 	//alert model changes
 	function showAlert(alert) {
-		alert.fadeIn(600).center().delay(1500).fadeOut(300);
+		alert.fadeIn(500).center().delay(500).fadeOut(500);
 	}
 
 	//table appender
@@ -273,8 +291,8 @@ var View = (function () {
 	function init(_) { 
 		setParentsPointers();
 
-		//create, set pointers and event listeners and append the table
-		appendTable(HBTableCreator(ClientesCollection.getAll()));
+		//create, set pointers and event listeners and append the table to body
+		appendTable(HBTableCreator(0,0));
 		
 		addFormEventListeners();
 

@@ -27,7 +27,7 @@ var ClientesCollection = (function() {
 		return clientes;
 	}
 	var getSize = function() {
-		return clientes.size();
+		return clientes.length;
 	}
 	var getById = function(id) {
 		return findById(id);

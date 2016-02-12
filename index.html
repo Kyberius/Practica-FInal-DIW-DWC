@@ -45,7 +45,7 @@
 				</thead>
 				<tbody>
 					{{#clientsArray}}
-					{{> rowtemplate}}
+						{{> rowtemplate}}
 					{{/clientsArray}}
 				</tbody>
 			</table>
@@ -55,30 +55,58 @@
 			<span class="panel panel-default">
 				Mostrar
 				<select name="pageSize">
-					<option value="10" selected="selected">
+						{{#ifEquals pageSize 5}}
+							<option value="5" selected="selected">
+						{{else}}
+							<option value="5">
+						{{/ifEquals}}
+						5&nbsp;&nbsp;
+					</option>
+						{{#ifEquals pageSize 10}}
+							<option value="10" selected="selected">
+						{{else}}
+							<option value="10">
+						{{/ifEquals}}
 						10&nbsp;&nbsp;
 					</option>
-					<option value="15">
-						15&nbsp;&nbsp;
-					</option>
-					<option value="20">
+						{{#ifEquals pageSize 20}}
+							<option value="20" selected="selected">
+						{{else}}
+							<option value="20">
+						{{/ifEquals}}
 						20&nbsp;&nbsp;
 					</option>
-					<option value="50">
+						{{#ifEquals pageSize 50}}
+							<option value="50" selected="selected">
+						{{else}}
+							<option value="50">
+						{{/ifEquals}}
 						50&nbsp;&nbsp;
-					</option>
+					</option>					
 				</select>
 				clientes
 			</span>
 
 			<ul class="pagination">
-				<li class="disabled"><span aria-hidden="true">«</span></li>
-				<li class="active"><span>1</span></li>
-				<li><span>2</span></li>
-				<li><span>3</span></li>
-				<li><span>4</span></li>
-				<li><span>5</span></li>
-				<li><span>»</span></li>
+				{{#ifEquals firstClass "Disabled"}}
+					<li class="disabled"><span aria-hidden="true">«</span></li>
+				{{else}}
+					<li><span aria-hidden="true">«</span></li>
+				{{/ifEquals}}
+
+				{{#fromTo 1 numberOfPages}}
+					{{#ifEquals ../currentPage this}}
+						<li class="active"><span>{{this}}</span></li>
+					{{else}}
+						<li><span>{{this}}</span></li>
+					{{/ifEquals}}
+				{{/fromTo}}
+				
+				{{#ifEquals lastClass "Disabled"}}
+					<li class="disabled"><span aria-hidden="true">»</span></li>
+				{{else}}
+					<li><span aria-hidden="true">»</span></li>
+				{{/ifEquals}}				
 			</ul>
 		</nav>
 	</script>
