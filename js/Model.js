@@ -46,6 +46,12 @@ var ClientesCollection = (function() {
 		var index = $.map(clientes,function(e) {return e.id}).indexOf(id*1)
 		clientes.splice(index,1);
 	}
+
+	var update = function(_,cliente) {
+		sortByName();
+		$.publish("actualizadoenmodelo",[cliente]);
+	}
+
 	//Sorting
 	var sortById = function() {
 		clientes.sort(function(a,b) {
@@ -62,6 +68,7 @@ var ClientesCollection = (function() {
 		ReadAll();
 		$.subscribe("insertado",add);
 		$.subscribe("borrado",remove);
+		$.subscribe("actualizado",update);
 	}
 	
 	return {

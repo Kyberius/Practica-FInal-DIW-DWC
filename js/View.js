@@ -273,18 +273,41 @@ var View = (function () {
 	}
 
 	//subscribers for model publishers
-	function rowInsert(_,clienteJSON) { 
-		var cliArr = ClientesCollection.getPage(HBtableData.pageSize,HBtableData.currentPage);
-		if (cliArr != HBtableData.clientsArray) {
+	function rowInsert(_,clienteJSON) {/* 
+		var cliArr = $.extend(true, {}, ClientesCollection.getPage(HBtableData.pageSize,HBtableData.currentPage));
+		var is_same = (cliArr.length == HBtableData.clientsArray.length) && cliArr.every(function(element, index) {
+			return element === HBtableData.clientsArray[index]; 
+		});		
+		if (!is_same) {*/
 			appendTable(HBTableCreator(HBtableData.pageSize,HBtableData.currentPage));
-		}
+		//}
 		showTable();
 		showAlert(alert.added);
 	}	
 
 	function rowUpdate(_,clienteJSON) { 
-		divTable.tBody.find('#' + clienteJSON.id).replaceWith(HBRowCreator(clienteJSON));
-		addRowEventListeners(clienteJSON.id);
+		/*
+		var cliArr = $.extend(true, {}, ClientesCollection.getPage(HBtableData.pageSize,HBtableData.currentPage));
+		var is_same = (cliArr.length == HBtableData.clientsArray.length) && cliArr.every(function(element, index) {
+			return element === HBtableData.clientsArray[index]; 
+		});
+		if (!is_same) {
+			var newIndex= $.inArray(clienteJSON, cliArr);
+			if (newIndex == -1) {*/
+				appendTable(HBTableCreator(HBtableData.pageSize,HBtableData.currentPage));
+		/*	} else {
+				if (cliArr[newIndex].id == HBtableData.clientsArray[newIndex].id) {
+					divTable.tBody.find('#' + clienteJSON.id).replaceWith(HBRowCreator(clienteJSON));
+					addRowEventListeners(clienteJSON.id);
+				} else {
+					divTable.tBody.find('#' + clienteJSON.id).remove();
+					$(HBRowCreator(clienteJSON)).insertBefore(divTable.tBody.children().eq(newIndex))				
+					addRowEventListeners(clienteJSON.id);
+				}
+			}
+			HBtableData.clientsArray = cliArr;
+		}
+		*/
 		showTable();
 		showAlert(alert.edited);
 	}
@@ -336,7 +359,7 @@ var View = (function () {
 
 		//subscribe to Model publish events
 		$.subscribe("insertadoenmodelo",rowInsert);
-		$.subscribe("actualizado",rowUpdate);
+		$.subscribe("actualizadoenmodelo",rowUpdate);
 		$.subscribe("borrado",rowRemove);
 
 	}
