@@ -79,7 +79,7 @@ var ClienteModel = (function() {
 	var my = {};
 	//Private
 	var clienteJSON;
-	var ImgInputFild;
+	var imagen;
 	function load(id) {
 		clienteJSON = ClientesCollection.getById(id);
 	}
@@ -131,7 +131,7 @@ var ClienteModel = (function() {
 	}
 
 	my.setImageReference = function(Reference) {
-		ImgInputFild = Reference;
+		imagen = Reference;
 	}
 	//Getter & Setters
 	my.getId = function() {return clienteJSON.id}

@@ -78,7 +78,4 @@ class ClienteCRUD{
 		return json_encode($coll->toJson(),JSON_FORCE_OBJECT);
 	}
 }
-
-
-
  ?>
