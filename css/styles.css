@@ -103,10 +103,3 @@ form label.radio-inline+.radio-inline {
 #formulario form {
   padding-top: 1.5em;
 }
-
-@media (min-width: @screen-sm-min) {
-  #formulario {
-
-  }
-  
-}
