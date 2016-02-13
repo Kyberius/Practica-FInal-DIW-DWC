@@ -1,5 +1,5 @@
 <?php 
-include("cors.php");
+header("Access-Control-Allow-Origin: *");
 $target = 'profiles/'.$_POST["id"].".jpg";
 	//$ext = ".".pathinfo($_FILES['imagen']['name'])['extension'];
 if (isset($_FILES['imagen'])) {

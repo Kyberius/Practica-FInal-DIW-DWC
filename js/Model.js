@@ -1,3 +1,4 @@
+var serverPath = "http://127.0.0.1/finalDAW/";
 var ClientesCollection = (function() {
 	//Private
 	var clientes = [];
@@ -9,7 +10,7 @@ var ClientesCollection = (function() {
 		}
 		$.ajax({
 		  type: "POST",
-		  url: "CRUD.php",
+		  url: serverPath + "CRUD.php",
 		  success: success,
 		  dataType: "json",
 		  async:true
@@ -96,26 +97,26 @@ var ClienteModel = (function() {
 	}
 	function insertDB() {
 		clienteJSON.type = "C";
-		$.post("CRUD.php",clienteJSON,function(cliente) {
+		$.post(serverPath + "CRUD.php",clienteJSON,function(cliente) {
 			uploadImg(cliente.id);
 			$.publish("insertado",[cliente]);
 		},"JSON");
 	}
 	function updateDB() {
 		clienteJSON.type = "U";
-		$.post("CRUD.php",clienteJSON,function(cliente) {
+		$.post(serverPath + "CRUD.php",clienteJSON,function(cliente) {
 			uploadImg(cliente.id);
 			$.publish("actualizado",[cliente]);
 		},"JSON")
 	}
 
 	function deleteDB(id) {
-		$.post("CRUD.php",{id:id,type:"D"},function() {
+		$.post(serverPath + "CRUD.php",{id:id,type:"D"},function() {
 			$.publish("borrado",[id]);
 		})
 	}
 	function uploadImg(id) {
-		imagen.upload("images.php",{id:id});
+		imagen.upload(serverPath + "images.php",{id:id});
 	}
 	//Public
 	my.new = function() {

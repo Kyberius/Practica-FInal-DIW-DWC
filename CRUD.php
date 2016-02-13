@@ -1,7 +1,7 @@
 <?php
-include("cors.php");
-
 namespace dao\empresaDatabase;
+
+header("Access-Control-Allow-Origin: *");
 
 include("clases/dao/empresaDatabase/autoload.php");
 include("Parm/vendor/autoload.php");

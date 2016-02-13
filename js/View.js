@@ -322,7 +322,7 @@ var View = (function () {
 	const MY_POPOVER = '<div id="mypopover" class="popover"><div class="popover-title"></div></div>';
 	function addPopover(element) {
 		var imagen = $('<img class="popimg" src="">');
-		$.post("images.php",{id:element.attr('id')},function(imgsrc) {
+		$.post(serverPath+"images.php",{id:element.attr('id')},function(imgsrc) {
 			imagen.attr('src',imgsrc);
 		});
 		element.popover({
