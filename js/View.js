@@ -132,13 +132,11 @@ var View = (function () {
 	}
 
 	function submitForm(event) {
-		if (confirm("Guardar Cambios?")) {
-			ClienteModel.save();
-		}
+		showModal(function(){ClienteModel.save();});
 	}
 
 	function resetForm(event) {
-		if (confirm("Borrar Cambios?")) {
+		showModal(function() {
 			ClienteModel.reload();
 			divForm.inputNombre.val(function() { return $(this).prop('defaultValue')});
 			divForm.inputCiudad.val(function() { return $(this).prop('defaultValue')});
@@ -148,7 +146,7 @@ var View = (function () {
 				divForm.radioSexoF.prop("checked",true);
 			divForm.inputTelefono.val(function() { return $(this).prop('defaultValue')});
 			divForm.inputFechaNacimiento.val(function() { return $(this).prop('defaultValue')});
-		}
+		});
 	}
 
 
@@ -244,8 +242,9 @@ var View = (function () {
 	};
 
 	function deleteClick(event) {
-		if (confirm("Eliminar Cliente?"))
+		showModal(function(){
 			ClienteModel.remove($(this).parent().attr("id"));
+		});
 	};
 
 	function editClick(event) {
@@ -323,7 +322,12 @@ var View = (function () {
 	function showAlert(alert) {
 		alert.fadeIn(500).center().delay(500).fadeOut(500);
 	}
-		const MY_POPOVER = '<div id="mypopover" class="popover"><div class="popover-title"></div></div>';
+
+	function showModal(fn) {
+		$("div#confirm").modal().center().one("click", "#proced", fn);
+	}
+
+	const MY_POPOVER = '<div id="mypopover" class="popover"><div class="popover-title"></div></div>';
 	function addPopover(element) {
 		var imagen = $('<img class="popimg" src="">');
 		$.post("images.php",{id:element.attr('id')},function(imgsrc) {

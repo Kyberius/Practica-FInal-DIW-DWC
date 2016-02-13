@@ -79,6 +79,11 @@ form label.radio-inline+.radio-inline {
   white-space:nowrap;
 }
 
+#confirm {
+  display: none;
+  width: 70%;
+}
+
 .alert {
   display: none;
   min-width: 70%;
