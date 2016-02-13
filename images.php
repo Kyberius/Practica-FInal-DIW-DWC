@@ -1,4 +1,5 @@
 <?php 
+include("cors.php");
 $target = 'profiles/'.$_POST["id"].".jpg";
 	//$ext = ".".pathinfo($_FILES['imagen']['name'])['extension'];
 if (isset($_FILES['imagen'])) {
