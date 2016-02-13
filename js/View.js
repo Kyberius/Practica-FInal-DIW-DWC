@@ -11,15 +11,13 @@ var View = (function () {
 	var divTable;
 	var divForm;
 	var alert;
-
-
+	var divModal;
 	//HandleBars variables
-	var HBtableSource;
-	var HBtableTemplate;
-	var HBtableData;
-	var HBrowSource;
-	var HBrowTemplate;
-
+	var HBtableSource; //source script
+	var HBtableTemplate; //compiled teplate
+	var HBtableData; //data passed to template
+	var HBrowSource; //row source script
+	var HBrowTemplate; //row compiled template
 	
 	//HandleBars templates functions
 	function HBTableCreator(size,page) {
@@ -32,13 +30,13 @@ var View = (function () {
 		HBtableData.lastClass = (HBtableData.currentPage == HBtableData.numberOfPages?"disabled":"");
 		HBtableData.clientsArray = ClientesCollection.getPage(HBtableData.pageSize,HBtableData.currentPage);
 
-		HBtableSource = (typeof HBtableSource === "undefined")?$("#table-template").html():HBtableSource; 
-		HBtableTemplate = (typeof HBtableTemplate === "undefined")?Handlebars.compile(HBtableSource):HBtableTemplate; 
-		if (typeof HBrowSource === "undefined") { //first time
+		if (typeof HBtableSource === "undefined") { //first time
+			HBtableSource = $("#table-template").html(); 
+			HBtableTemplate = Handlebars.compile(HBtableSource); 
 			//partial
 			HBrowSource = $("#row-template").html();
 			Handlebars.registerPartial("rowtemplate", HBrowSource);
-			//helpers
+			//Handlebars own helpers
 			Handlebars.registerHelper('ifEquals', function(v1, v2, options) {
 				if(v1 == v2) {
 					return options.fn(this);
@@ -66,6 +64,7 @@ var View = (function () {
 		divTable = $("div#tabla");
 		divForm = $("div#formulario");
 		alert = $("div[id$=alert]");
+		divModal = $("div#confirm");
 	}
 
 	function setChildrenPointers() {
@@ -98,8 +97,6 @@ var View = (function () {
 		divForm.buttonBack = divForm.find("button[name=back]");
 	}
 
-
-	//form functions
 	function fillForm(){
 		var value = ClienteModel.getNombre() || "";
 		divForm.inputNombre.val(value).prop('defaultValue',value);
@@ -131,55 +128,7 @@ var View = (function () {
 		}
 	}
 
-	function submitForm(event) {
-		showModal(function(){ClienteModel.save();});
-	}
-
-	function resetForm(event) {
-		showModal(function() {
-			ClienteModel.reload();
-			divForm.inputNombre.val(function() { return $(this).prop('defaultValue')});
-			divForm.inputCiudad.val(function() { return $(this).prop('defaultValue')});
-			if (divForm.radioSexoM.attr('checked') == "checked")
-				divForm.radioSexoM.prop("checked",true);
-			else if (divForm.radioSexoF.attr('checked') == "checked")
-				divForm.radioSexoF.prop("checked",true);
-			divForm.inputTelefono.val(function() { return $(this).prop('defaultValue')});
-			divForm.inputFechaNacimiento.val(function() { return $(this).prop('defaultValue')});
-		});
-	}
-
-
-	//Show/hide functions
-	function showForm() {
-		divTable.slideUp(200, function(){divForm.slideDown(200)});
-	}
-
-	function showTable() {
-		divForm.slideUp(200, function(){divTable.slideDown(200)});
-	}
-
-
 	//Add event listeners functions
-	function addTableEventListeners() {
-		divTable.find(">#new").click(newClick);
-		divTable.tBody.find("tr .tdDelete").click(deleteClick);
-		divTable.tBody.find("tr .tdEdit").click(editClick);
-		divTable.tBody.find("tr").each(function(index, el) {
-			addPopover($(this));
-		});
-		divTable.selectPageSize.change(pageSizeChange);
-		divTable.ulPag.firstUl.click(firstClick);
-		divTable.ulPag.lastUl.click(lastClick);
-		divTable.ulPag.clickablePagesUls.click(pageClick);
-	}
-
-	function addRowEventListeners(id) {
-		divTable.tBody.find("tr#" + id + " .tdDelete").click(deleteClick);
-		divTable.tBody.find("tr#" + id + " .tdEdit").click(editClick);
-		setTimeout(addPopover(divTable.tBody.find("tr#"+id)),500);
-	}
-
 	function addFormEventListeners() {
 		divForm.inputNombre.bind("keyup change",function(event) {
 			validate($(this),/^[a-zñ]+( [a-zñ]+)*$/gi);
@@ -207,34 +156,69 @@ var View = (function () {
 		});
 		divForm.inputFechaNacimiento.datepicker({
 			changeMonth: true,
-      		changeYear: true,
-      		dateFormat:"yy-mm-dd",
-      		yearRange: "1900:c",
-      		firstDay: 1,
-      		dayNamesMin: [ "Do", "Lu", "Ma", "Mi", "Ju", "Vi", "Sa" ],
-      		monthNamesShort: [ "Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dec" ]
+			changeYear: true,
+			dateFormat:"yy-mm-dd",
+			yearRange: "1900:c",
+			firstDay: 1,
+			dayNamesMin: [ "Do", "Lu", "Ma", "Mi", "Ju", "Vi", "Sa" ],
+			monthNamesShort: [ "Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dec" ]
 		});
+		
+		function validate(element,pattern) {
+			pattern.test(element.val())?successCotent():errorContent();
+			function errorContent() {
+				element.parent().parent().removeClass('has-success');
+				element.parent().parent().addClass('has-error');
+			}
+			function successCotent() {
+				element.parent().parent().removeClass('has-error');
+				element.parent().parent().addClass('has-success');
+			}
+		}
+
 		divForm.buttonSubmit.click(submitForm);
 		divForm.buttonReset.click(resetForm);
-		divForm.buttonBack.click(showTable)
+		divForm.buttonBack.click(showTable);
+
+		function submitForm(event) {
+			showModal(function(){ClienteModel.save();});
+		}
+
+		function resetForm(event) {
+			showModal(function() {
+				ClienteModel.reload();
+				divForm.inputNombre.val(function() { return $(this).prop('defaultValue')});
+				divForm.inputCiudad.val(function() { return $(this).prop('defaultValue')});
+				if (divForm.radioSexoM.attr('checked') == "checked")
+					divForm.radioSexoM.prop("checked",true);
+				else if (divForm.radioSexoF.attr('checked') == "checked")
+					divForm.radioSexoF.prop("checked",true);
+				divForm.inputTelefono.val(function() { return $(this).prop('defaultValue')});
+				divForm.inputFechaNacimiento.val(function() { return $(this).prop('defaultValue')});
+			});
+		}
 	}
 
-	function validate(element,pattern) {
-		pattern.test(element.val())?successCotent():errorContent();
-		function errorContent() {
-			element.parent().parent().removeClass('has-success');
-			element.parent().parent().addClass('has-error');
-		}
-		function successCotent() {
-			element.parent().parent().removeClass('has-error');
-			element.parent().parent().addClass('has-success');
-		}
+	function addTableEventListeners() {
+		divTable.find(">#new").click(newClick);
+		divTable.tBody.find("tr .tdDelete").click(deleteClick);
+		divTable.tBody.find("tr .tdEdit").click(editClick);
+		divTable.tBody.find("tr").each(function(index, el) {
+			addPopover($(this));
+		});
+		divTable.selectPageSize.change(pageSizeChange);
+		divTable.ulPag.firstUl.click(firstClick);
+		divTable.ulPag.lastUl.click(lastClick);
+		divTable.ulPag.clickablePagesUls.click(pageClick);
 	}
 
-	
+	function addRowEventListeners(id) {
+		divTable.tBody.find("tr#" + id + " .tdDelete").click(deleteClick);
+		divTable.tBody.find("tr#" + id + " .tdEdit").click(editClick);
+		setTimeout(addPopover(divTable.tBody.find("tr#"+id)),500);
+	}
 
-
-	//table events handle functions
+		//table events handle functions
 	function newClick(event) {
 		ClienteModel.new();
 		fillForm();
@@ -318,13 +302,21 @@ var View = (function () {
 		showAlert(alert.deleted);
 	}
 
-	//alert model changes
+	//Visual effects functions
+	function showForm() {
+		divTable.slideUp(200, function(){divForm.slideDown(200)});
+	}
+
+	function showTable() {
+		divForm.slideUp(200, function(){divTable.slideDown(200)});
+	}
+
 	function showAlert(alert) {
 		alert.fadeIn(500).center().delay(500).fadeOut(500);
 	}
 
 	function showModal(fn) {
-		$("div#confirm").modal().center().one("click", "#proced", fn);
+		divModal.modal().center().one("click", "#proced", fn);s
 	}
 
 	const MY_POPOVER = '<div id="mypopover" class="popover"><div class="popover-title"></div></div>';
@@ -341,6 +333,7 @@ var View = (function () {
 			template:MY_POPOVER
 		});
 	}
+
 	//table appender
 	function appendTable(table) {
 		divTable.html(table);
