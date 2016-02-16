@@ -130,28 +130,31 @@ var View = (function () {
 
 	//Add event listeners functions
 	function addFormEventListeners() {
+		var Valid = {"Nombre":false,"Ciudad":false,"Sexo":false,"Telefono":false,"Fecha":false};
 		divForm.inputNombre.bind("keyup change",function(event) {
-			validate($(this),/^[a-zñ]+( [a-zñ]+)*$/gi);
+			Valid["Nombre"] = validate($(this),/^[a-zñ]+( [a-zñ]+)*$/gi);
 			ClienteModel.setNombre($(this).val());
 		});
 		divForm.inputCiudad.bind("keyup change",function(event) {
-			validate($(this),/^[a-zñ]+( [a-zñ]+)*$/gi);
+			Valid["Ciudad"] = validate($(this),/^[a-zñ]+( [a-zñ]+)*$/gi);
 			ClienteModel.setCiudad($(this).val());
 		});
 		divForm.radioSexoM.change(function() {
+			Valid["Sexo"] = validate($(this),/[M|F]/);
 			if ($(this).prop("checked")) 
 				ClienteModel.setSexo("M");
 		});
 		divForm.radioSexoF.change(function() {
+			Valid["Sexo"] = validate($(this),/[M|F]/);
 			if ($(this).prop("checked")) 
 				ClienteModel.setSexo("F");
 		});
 		divForm.inputTelefono.bind("keyup change",function(event) {
-			validate($(this),/^[+[0-9]{1,2}-?[0-9]{1,3}\s?]?[0-9]*$/);
+			Valid["Telefono"] = validate($(this),/^[+[0-9]{1,2}-?[0-9]{1,3}\s?]?[0-9]*$/);
 			ClienteModel.setTelefono($(this).val());
 		});
 		divForm.inputFechaNacimiento.change(function(event) {
-			validate($(this),/\d{4}\-\d{2}-\d{2}/);
+			Valid["Fecha"] = validate($(this),/\d{4}\-\d{2}-\d{2}/);
 			ClienteModel.setFechaNacimiento($(this).val());
 		});
 		divForm.inputFechaNacimiento.datepicker({
@@ -165,23 +168,32 @@ var View = (function () {
 		});
 		
 		function validate(element,pattern) {
-			pattern.test(element.val())?successCotent():errorContent();
+			return pattern.test(element.val())?successCotent():errorContent();
 			function errorContent() {
-				element.parent().parent().removeClass('has-success');
-				element.parent().parent().addClass('has-error');
+				element.closest(".form-group").removeClass('has-success');
+				element.closest(".form-group").addClass('has-error');
+				return false;
 			}
 			function successCotent() {
-				element.parent().parent().removeClass('has-error');
-				element.parent().parent().addClass('has-success');
+				element.closest(".form-group").removeClass('has-error');
+				element.closest(".form-group").addClass('has-success');
+				return true;
 			}
 		}
+		divForm.on('keyup change show','input', function(event) {
+			var All=false;
+			$.each(Valid, function(index, val) {
+				All += val;
+			});
+			All<5?divForm.buttonSubmit.prop("disabled",true):divForm.buttonSubmit.prop("disabled",false);
+		});
 
 		divForm.buttonSubmit.click(submitForm);
 		divForm.buttonReset.click(resetForm);
 		divForm.buttonBack.click(showTable);
 
 		function submitForm(event) {
-			showModal(function(){ClienteModel.save();});
+			showModal(function(){ClienteModel.save();},"¿Guardar cliente?");
 		}
 
 		function resetForm(event) {
@@ -195,7 +207,7 @@ var View = (function () {
 					divForm.radioSexoF.prop("checked",true);
 				divForm.inputTelefono.val(function() { return $(this).prop('defaultValue')});
 				divForm.inputFechaNacimiento.val(function() { return $(this).prop('defaultValue')});
-			});
+			},"¿Reestablecer datos del formulario?");
 		}
 	}
 
@@ -226,9 +238,10 @@ var View = (function () {
 	};
 
 	function deleteClick(event) {
+		_this = $(this);
 		showModal(function(){
-			ClienteModel.remove($(this).parent().attr("id"));
-		});
+			ClienteModel.remove(_this.parent("tr").attr("id"));
+		},"¿Borrar Cliente "+_this.siblings('.tdNombres').text()+"?");
 	};
 
 	function editClick(event) {
@@ -315,8 +328,10 @@ var View = (function () {
 		alert.fadeIn(500).center().delay(500).fadeOut(500);
 	}
 
-	function showModal(fn) {
-		divModal.modal().center().one("click", "#proced", fn);s
+	function showModal(fn,msg) {
+		var mdlbdy = divModal.find(".modal-body");
+		mdlbdy.text(msg);
+		divModal.modal().center().one("click", "#proced", fn);
 	}
 
 	const MY_POPOVER = '<div id="mypopover" class="popover"><div class="popover-title"></div></div>';
