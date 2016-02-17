@@ -69,13 +69,13 @@ class ClienteCRUD{
 	public static function Create($cc) {
 		$cc->Tbl->insert($cc->clienteDAO);
 		$cc->t->commit();
-		return json_encode( (array)$cc->clienteDAO);
+		return json_encode( (array)$cc->clienteDAO,JSON_FORCE_OBJECT);
 	}
 
 	public static function Update($cc) {
 		$cc->Tbl->update($cc->clienteDAO);
 		$cc->t->commit();
-		return json_encode( (array)$cc->clienteDAO);
+		return json_encode( (array)$cc->clienteDAO,JSON_FORCE_OBJECT);
 	}
 
 	public static function Delete($cc) {
@@ -91,7 +91,8 @@ class ClienteCRUD{
 
 		for($i=0;$i<count($arr);$i++){
 			$c = $arr[$i];
-			$Jarr[] = json_encode( (array)$c);
+			//$Jarr[] = json_encode( (array)$c);
+			$Jarr[]=$c;
 		}
 		return json_encode($Jarr,JSON_FORCE_OBJECT);
 	}
