@@ -1,12 +1,8 @@
 <?php
-namespace dao\empresacrudDatabase;
 
 header("Access-Control-Allow-Origin: *");
 
-include("clases/dao/empresacrudDatabase/autoload.php");
-include("Parm/vendor/autoload.php");
-use \Parm\Config;
-Config::setupConnection("empresacrud","empresacrud","usercrud","passwordcrud","db4free.net");
+require_once('include_dao.php');
 $type = isset($_POST["type"])?$_POST["type"]:null;
 	
 	switch($type) {
